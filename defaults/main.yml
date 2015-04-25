@@ -3,4 +3,4 @@
 
 mariadb_databases: []
 mariadb_users: []
-
+mariadb_root_password: ''

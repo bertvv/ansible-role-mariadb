@@ -15,6 +15,34 @@
     enabled: yes
   tags: mariadb
 
+- name: Update root password
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mariadb_root_password }}"
+    state: present
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+  tags: mariadb
+
+- name: Install ~/.my.cnf
+  template:
+    src: home_my.cnf.j2
+    dest: ~/.my.cnf
+    mode: '0600'
+  tags: mariadb
+
+- name: Update root password
+  mysql_user:
+    name: root
+    host: "{{ ansible_hostname }}"
+    password: "{{ mariadb_root_password }}"
+    state: present
+  when: ansible_hostname != 'localhost'
+  tags: mariadb
+
 - name: Remove the test database
   mysql_db:
     name: test

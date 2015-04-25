@@ -5,6 +5,7 @@
     mariadb_databases:
       - myappdb
       - myotherdb
+    mariadb_root_password: drowssap
     mariadb_users:
       - name: appusr
         password: sekrit
