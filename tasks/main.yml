@@ -10,7 +10,39 @@
 
 - name: Ensure service is started
   service:
-    name: "{{ mariadb_service }}"
+    name: mariadb
     state: started
-    enabled: true
+    enabled: yes
+  tags: mariadb
+
+- name: Remove the test database
+  mysql_db:
+    name: test
+    state: absent
+  tags: mariadb
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host: "{{ item }}"
+    state: absent
+  with_items:
+    - localhost
+    - "{{ ansible_hostname }}"
+  tags: mariadb
+
+- name: Create the databases
+  mysql_db:
+    name: "{{ item }}"
+    state: present
+  with_items: mariadb_databases
+  tags: mariadb
+
+- name: Create the users
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.priv }}"
+    state: present
+  with_items: mariadb_users
   tags: mariadb

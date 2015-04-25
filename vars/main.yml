@@ -3,5 +3,6 @@
 
 mariadb_packages:
   - mariadb
+  - mariadb-server
+  - MySQL-python
 
-mariadb_service:

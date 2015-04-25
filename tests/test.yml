@@ -1,5 +1,9 @@
 ---
 - hosts: all
   sudo: true
+  vars:
+    mariadb_databases:
+      - myappdb
+      - myotherdb
   roles:
     - mariadb

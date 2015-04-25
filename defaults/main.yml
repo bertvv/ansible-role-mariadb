@@ -1,4 +1,6 @@
 # roles/mariadb/defaults/main.yml
 ---
 
+mariadb_databases: []
+mariadb_users: []
 
