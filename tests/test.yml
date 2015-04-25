@@ -5,5 +5,12 @@
     mariadb_databases:
       - myappdb
       - myotherdb
+    mariadb_users:
+      - name: appusr
+        password: sekrit
+        priv: "myappdb.*:ALL,GRANT"
+      - name: otheruser
+        password: letmein
+        priv: "myotherdb.*:ALL"
   roles:
     - mariadb
