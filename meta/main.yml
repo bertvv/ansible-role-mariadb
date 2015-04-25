@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Bert Van Vreckem
-  description: PURPOSE
+  description: Manage MariaDB on CentOS 7
   company:
   license: BSD
   min_ansible_version: 1.7
@@ -10,6 +10,7 @@ galaxy_info:
     versions:
       - 7
   categories:
-    - system
+    - database
+    - database:sql
 dependencies: []
 

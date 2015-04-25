@@ -1,8 +1,14 @@
 # Ansible role `mariadb`
 
-An Ansible role for PURPOSE. Specifically, the responsibilities of this role are to:
+An Ansible role for managing MariaDB. Specifically, the responsibilities of this role are to:
 
--
+- Install MariaDB packages
+- Remove unsafe defaults:
+    - change root password
+    - remove anonymous users
+    - remove test database
+- Create users and databases
+- Configure network interface(s) to listen on
 
 ## Requirements
 
@@ -11,9 +17,24 @@ No specific requirements
 ## Role Variables
 
 
-| Variable   | Required | Default | Comments (type)  |
-| :---       | :---     | :---    | :---             |
-| `role_var` | no       | -       | (scalar) PURPOSE |
+| Variable                | Required | Default     | Comments (type)                                                                                             |
+| :---                    | :---     | :---        | :---                                                                                                        |
+| `mariadb_databases`     | no       | []          | List of names of the databases to be added                                                                  |
+| `mariadb_users`         | no       | []          | List of dicts specifying the users to be added. See below for details.                                      |
+| `mariadb_root_password` | no       | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
+| `mariadb_bind_address`  | no       | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
+
+Users are defined with a dict containing fields `name:`, `password:`, and `priv:`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html). An example:
+
+```Yaml
+mariadb_users:
+  - name: john
+    password: letmein
+    priv: '*.*:ALL,GRANT'
+  - name: jack
+    password: sekrit
+    priv: 'jacksdb.*:ALL'
+```
 
 ## Dependencies
 
