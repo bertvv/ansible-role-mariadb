@@ -15,6 +15,14 @@
     enabled: yes
   tags: mariadb
 
+- name: Install config file for network settings
+  template:
+    src: etc_my.cnf.d_network.cnf.j2
+    dest: /etc/my.cnf.d/network.cnf
+  notify: restart mariadb
+  tags: mariadb
+
+
 - name: Update root password
   mysql_user:
     name: root
