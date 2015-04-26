@@ -23,6 +23,9 @@ No specific requirements
 | `mariadb_users`         | no       | []          | List of dicts specifying the users to be added. See below for details.                                      |
 | `mariadb_root_password` | no       | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
 | `mariadb_bind_address`  | no       | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
+| `mariadb_init_scripts`  | no       | ''          | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
+
+### Adding users
 
 Users are defined with a dict containing fields `name:`, `password:`, and `priv:`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html). An example:
 
@@ -35,6 +38,18 @@ mariadb_users:
     password: sekrit
     priv: 'jacksdb.*:ALL'
 ```
+
+### Initialising databases
+
+Init scripts are specified with a dict containing the fields `script:` and `database:`. The former specifies the location of the SQL script, the latter the name of the database to apply the script to. An example:
+
+```Yaml
+mariadb_init_scripts:
+  - database: myappdb
+    script: files/init.sql
+```
+
+This will execute the SQL script `files/init.sql` (relative to the Ansible main directory) in the database `myappdb`.
 
 ## Dependencies
 

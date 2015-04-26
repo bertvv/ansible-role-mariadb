@@ -4,6 +4,12 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of [http://keepachangelog.com/](http://keepachangelog.com/). Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 1.1.0 - 2015-04-26
+
+### Added
+
+- Databases can be initialised with a SQL script
+
 ## 1.0.0 - 2015-04-25
 
 First release!

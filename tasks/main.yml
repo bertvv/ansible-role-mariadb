@@ -82,3 +82,19 @@
     state: present
   with_items: mariadb_users
   tags: mariadb
+
+- name: Copy database init scripts
+  copy:
+    src: "{{ item.script }}"
+    dest: "/tmp/{{ item.script|basename }}"
+  with_items: mariadb_init_scripts
+  tags: mariadb
+
+- name: Initialise databases
+  mysql_db:
+    name: "{{ item.database }}"
+    state: import
+    target: "/tmp/{{ item.script|basename }}"
+  with_items: mariadb_init_scripts
+  when: mariadb_init_scripts is defined
+  tags: mariadb
