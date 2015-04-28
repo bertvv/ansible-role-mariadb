@@ -4,6 +4,12 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of [http://keepachangelog.com/](http://keepachangelog.com/). Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 1.1.1 - 2015-04-28
+
+### Changed
+
+- Fixed a bug that makes the role fail when `mariadb_init_scripts` is undefined.
+
 ## 1.1.0 - 2015-04-26
 
 ### Added

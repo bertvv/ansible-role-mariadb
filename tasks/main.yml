@@ -88,6 +88,7 @@
     src: "{{ item.script }}"
     dest: "/tmp/{{ item.script|basename }}"
   with_items: mariadb_init_scripts
+  when: mariadb_init_scripts is defined
   tags: mariadb
 
 - name: Initialise databases
