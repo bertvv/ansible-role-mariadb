@@ -1,16 +1,22 @@
 # roles/mariadb/tasks/main.yml
 ---
 
+- include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags: mariadb
+
 - name: Install packages
-  yum:
-    pkg: "{{ item }}"
+  package:
+    name: "{{ item }}"
     state: installed
-  with_items: mariadb_packages
+  with_items: "{{ mariadb_packages }}"
   tags: mariadb
 
 - name: Ensure service is started
   service:
-    name: mariadb
+    name: "{{ mariadb_service }}"
     state: started
     enabled: yes
   tags: mariadb
@@ -18,10 +24,9 @@
 - name: Install config file for network settings
   template:
     src: etc_my.cnf.d_network.cnf.j2
-    dest: /etc/my.cnf.d/network.cnf
+    dest: "{{ mariadb_config }}"
   notify: restart mariadb
   tags: mariadb
-
 
 - name: Update root password
   mysql_user:
@@ -38,7 +43,7 @@
 - name: Install ~/.my.cnf
   template:
     src: home_my.cnf.j2
-    dest: ~/.my.cnf
+    dest: "{{ mariadb_my_config }}"
     mode: '0600'
   tags: mariadb
 
@@ -71,7 +76,7 @@
   mysql_db:
     name: "{{ item }}"
     state: present
-  with_items: mariadb_databases
+  with_items: "{{ mariadb_databases }}"
   tags: mariadb
 
 - name: Create the users
@@ -80,15 +85,14 @@
     password: "{{ item.password }}"
     priv: "{{ item.priv }}"
     state: present
-  with_items: mariadb_users
+  with_items: "{{ mariadb_users }}"
   tags: mariadb
 
 - name: Copy database init scripts
   copy:
     src: "{{ item.script }}"
     dest: "/tmp/{{ item.script|basename }}"
-  with_items: mariadb_init_scripts
-  when: mariadb_init_scripts is defined
+  with_items: "{{ mariadb_init_scripts }}"
   tags: mariadb
 
 - name: Initialise databases
@@ -96,6 +100,5 @@
     name: "{{ item.database }}"
     state: import
     target: "/tmp/{{ item.script|basename }}"
-  with_items: mariadb_init_scripts
-  when: mariadb_init_scripts is defined
+  with_items: "{{ mariadb_init_scripts }}"
   tags: mariadb

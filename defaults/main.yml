@@ -6,3 +6,5 @@ mariadb_users: []
 mariadb_root_password: ''
 
 mariadb_bind_address: '127.0.0.1'
+
+mariadb_init_scripts: []

@@ -13,4 +13,3 @@ galaxy_info:
     - database
     - database:sql
 dependencies: []
-version: 1.1.1

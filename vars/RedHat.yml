@@ -1,0 +1,12 @@
+# roles/mariadb/vars/RedHat.yml
+---
+
+mariadb_packages:
+  - mariadb
+  - mariadb-server
+  - MySQL-python
+
+mariadb_service: mariadb
+
+mariadb_config: /etc/my.cnf.d/network.cnf
+mariadb_my_config: ~/.my.cnf
