@@ -4,6 +4,17 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of [http://keepachangelog.com/](http://keepachangelog.com/). Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 1.1.2 - 2016-05-10
+
+### Added
+
+- Support for Fedora
+
+### Changed
+
+- Fixed Ansible 2.0 deprecation warnings
+- Prepared the role for supporting multiple platforms
+
 ## 1.1.1 - 2015-04-28
 
 ### Changed
