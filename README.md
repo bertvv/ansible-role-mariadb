@@ -1,6 +1,6 @@
 # Ansible role `mariadb`
 
-An Ansible role for managing MariaDB. Specifically, the responsibilities of this role are to:
+An Ansible role for managing MariaDB in RedHat-based distributions. Specifically, the responsibilities of this role are to:
 
 - Install MariaDB packages
 - Remove unsafe defaults:
@@ -16,14 +16,15 @@ No specific requirements
 
 ## Role Variables
 
+None of the variables below are required. When not defined by the user, the default values are used.
 
-| Variable                | Required | Default     | Comments (type)                                                                                             |
-| :---                    | :---     | :---        | :---                                                                                                        |
-| `mariadb_databases`     | no       | []          | List of names of the databases to be added                                                                  |
-| `mariadb_users`         | no       | []          | List of dicts specifying the users to be added. See below for details.                                      |
-| `mariadb_root_password` | no       | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
-| `mariadb_bind_address`  | no       | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
-| `mariadb_init_scripts`  | no       | ''          | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
+| Variable                | Default     | Comments (type)                                                                                             |
+| :---                    | :---        | :---                                                                                                        |
+| `mariadb_databases`     | []          | List of names of the databases to be added                                                                  |
+| `mariadb_users`         | []          | List of dicts specifying the users to be added. See below for details.                                      |
+| `mariadb_root_password` | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
+| `mariadb_bind_address`  | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
+| `mariadb_init_scripts`  | []          | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
 
 ### Adding users
 
@@ -61,7 +62,9 @@ See the [test playbook](tests/test.yml)
 
 ## Testing
 
-The `tests` directory contains tests for this role in the form of a Vagrant environment. The directory `tests/roles/mariadb` is a symbolic link that should point to the root of this project in order to work. To create it, do
+The `tests` directory contains tests for this role in the form of a Vagrant environment. When running `vagrant up`, a VM is generated for each supported platform and the test playbook is applied to it.
+
+The directory `tests/roles/mariadb` is a symbolic link that should point to the root of this project in order to work. To create it, do
 
 ```ShellSession
 $ cd tests/
@@ -70,8 +73,6 @@ $ ln -frs ../../PROJECT_DIR roles/mariadb
 ```
 
 You may want to change the base box into one that you like. The current one is based on Box-Cutter's [CentOS Packer template](https://github.com/boxcutter/centos).
-
-The playbook [`test.yml`](tests/test.yml) applies the role to a VM, setting role variables.
 
 ## Contributing
 
