@@ -11,7 +11,7 @@ galaxy_info:
     - name: Fedora
       versions:
         - 23
-  tags:
+  galaxy_tags:
     - database
     - sql
 dependencies: []
