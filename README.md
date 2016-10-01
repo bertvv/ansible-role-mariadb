@@ -28,7 +28,7 @@ None of the variables below are required. When not defined by the user, the defa
 
 ### Adding users
 
-Users are defined with a dict containing fields `name:`, `password:`, and `priv:`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html). An example:
+Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html). An example:
 
 ```Yaml
 mariadb_users:
@@ -38,6 +38,7 @@ mariadb_users:
   - name: jack
     password: sekrit
     priv: 'jacksdb.*:ALL'
+    host: '192.168.56.%'
 ```
 
 ### Initialising databases

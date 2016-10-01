@@ -4,6 +4,12 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of [http://keepachangelog.com/](http://keepachangelog.com/). Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 1.1.3 - 2016-10-01
+
+### Added
+
+- In variable `mysql_users`, it is now possible to set a `host` pattern that specifies the hosts from where a user is allowed to query the database.
+
 ## 1.1.2 - 2016-05-10
 
 ### Added
