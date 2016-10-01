@@ -84,6 +84,7 @@
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     priv: "{{ item.priv }}"
+    host: "{{ item.host|default('localhost') }}"
     state: present
   with_items: "{{ mariadb_users }}"
   tags: mariadb
