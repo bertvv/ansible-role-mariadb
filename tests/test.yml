@@ -11,7 +11,7 @@
       - name: appusr
         password: sekrit
         priv: "myappdb.*:ALL,GRANT"
-        host: "192.168.56.%"
+        host: "%"
       - name: otheruser
         password: letmein
         priv: "myotherdb.*:ALL"
