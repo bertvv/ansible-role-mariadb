@@ -28,6 +28,19 @@
   notify: restart mariadb
   tags: mariadb
 
+
+- name: Install buffer file for buffer performance
+  template:
+    src: server.cnf.j2
+    dest: "{{ mariadb_performance }}"
+  notify: restart mariadb
+  tags: mariadb 
+
+
+- name: add skip-name-resolve to buffer file
+  lineinfile: dest="{{ mariadb_performance }}" regexp='' insertafter=EOF line="skip-name-resolve"
+  when: skip-nameresolve
+
 - name: Update root password
   mysql_user:
     name: root
@@ -46,6 +59,8 @@
     dest: "{{ mariadb_my_config }}"
     mode: '0600'
   tags: mariadb
+
+
 
 - name: Update root password
   mysql_user:
@@ -89,12 +104,21 @@
   with_items: "{{ mariadb_users }}"
   tags: mariadb
 
+- name: configure vm.swapiness  
+  sysctl:
+    name: "{{ sysctl_p.name }}"
+    value: "{{ sysctl_p.value }}"
+    state: "{{ sysctl_p.state }}"
+  tags: sysctl
+
 - name: Copy database init scripts
   copy:
     src: "{{ item.script }}"
     dest: "/tmp/{{ item.script|basename }}"
   with_items: "{{ mariadb_init_scripts }}"
   tags: mariadb
+
+
 
 - name: Initialise databases
   mysql_db:

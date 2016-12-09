@@ -18,5 +18,21 @@
     mariadb_init_scripts:
       - database: myappdb
         script: files/init.sql
-  roles:
-    - mariadb
+    file_per_table: 1
+    buffer_pool_size: '1G'
+    sysctl_p:
+      name: vm.swappiness
+      value: 0
+      state: present
+    Max_connections: 300
+    thread_cachesize: 16
+    skip-nameresolve: true
+    query_cachesize: '64M'
+    tmp_tablesize: '64M'
+    max_heap_tablesize: '64M'
+    slow_query_log: 1
+    slow_query_log_file: '/var/lib/mysql/mysql/slow.log'
+    long_query_time: 1
+    wait_timeout: 60     
+      roles:
+        - mariadb
