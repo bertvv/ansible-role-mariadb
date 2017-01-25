@@ -39,7 +39,7 @@
 
 - name: add skip-name-resolve to buffer file
   lineinfile: dest="{{ mariadb_performance }}" regexp='' insertafter=EOF line="skip-name-resolve"
-  when: skip-nameresolve
+  when: skip_nameresolve
 
 - name: Update root password
   mysql_user:
