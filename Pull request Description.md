@@ -3,23 +3,23 @@
 ## Role Variables
 Variables for improving MariaDB Performance
 
-| Variable                | Default     | Comments (type)                                                                                             |
-| :---                    | :---        | :---                                                                                                        |
-| `file_per_table: 1`     | '1'         | 1: enable InnoDB file-per-table, 0:disable InnoDB file-per-table                                            |
-| `buffer_pool_size`      | '1G'        | Configure the InnoDB Buffer pool Size, Default is 1 GB                                                      |
-| `sysctl_p:`             | 'value: 1'  | Configure a systctl_p name, value and state                                                                 |
-| `Max_connections`       | '300'       | Configure how many concurrent connections can be initiated on your MariaDB server                           |
-| `thread_cachesize`      | '16'        | Configure Thread cache size                                                                                 |
-| `skip-nameresolve`      | 'true'      | True: Disable DNS lookips, false: enable DNS lookups                                                        |
-| `query_cachesize`       | '64M'       | Configure query chachesize                                                                                  |
-| `tmp_tablesize `        | '64M'       | Configure tmp table size                                                                                    |
-| `max_heap_tablesize`    | '64M'       | Configure max heap max_heap_tablesize                                                                       |
-| `slow_query_log`        | '1'         | 1: Enable slow query log, 0:disalbe slow query log                                                          |
-| `long_query_time`       | '1'         | Configure long query time                                                                                   |
-| `wait_timeout`          | '60'        | Configure idle connections                                                                                  |
+| Variable                         | Default     | Comments (type)                                                                                             |
+| :---                             | :---        | :---                                                                                                        |
+| `mariadb_file_per_table`         | '1'         | 1: enable InnoDB file-per-table, 0:disable InnoDB file-per-table                                            |
+| `mariadb_buffer_pool_size`       | '1G'        | Configure the InnoDB Buffer pool Size, Default is 1 GB                                                      |
+| `mariadb_sysctl_p:`              | 'value: 1'  | Configure a systctl_p name, value and state                                                                 |
+| `mariadb_Max_connections`        | '300'       | Configure how many concurrent connections can be initiated on your MariaDB server                           |
+| `mariadb_thread_cache_size`      | '16'        | Configure Thread cache size                                                                                 |
+| `mariadb_skip_name_resolve`      | 'true'      | True: Disable DNS lookips, false: enable DNS lookups                                                        |
+| `query_cache_size`       		   | '64M'       | Configure query chachesize                                                                                  |
+| `mariadb_tmp_table_size `        | '64M'       | Configure tmp table size                                                                                    |
+| `max_heap_table_size`            | '64M'       | Configure max heap max_heap_tablesize                                                                       |
+| `mariadb_slow_query_log`         | '1'         | 1: Enable slow query log, 0:disalbe slow query log                                                          |
+| `mariadb_long_query_time`        | '1'         | Configure long query time                                                                                   |
+| `mariadb_wait_timeout`          | '60'        | Configure idle connections                                                                                  |
 
 
-## Sources
+## Resources
 
   - http://linuxpitstop.com/tips-to-improve-mariadb-performance/
   - http://docs.ansible.com/ansible/sysctl_module.html
