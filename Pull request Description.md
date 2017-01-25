@@ -10,7 +10,7 @@ Variables for improving MariaDB Performance
 | `sysctl_p:`             | 'value: 1'  | Configure a systctl_p name, value and state                                                                 |
 | `Max_connections`       | '300'       | Configure how many concurrent connections can be initiated on your MariaDB server                           |
 | `thread_cachesize`      | '16'        | Configure Thread cache size                                                                                 |
-| `skip-nameresolve`      | 'true'      | True: Disable DNS lookips, false: enable DNS lookups                                                        |
+| `skip_nameresolve`      | 'true'      | True: Disable DNS lookips, false: enable DNS lookups                                                        |
 | `query_cachesize`       | '64M'       | Configure query chachesize                                                                                  |
 | `tmp_tablesize `        | '64M'       | Configure tmp table size                                                                                    |
 | `max_heap_tablesize`    | '64M'       | Configure max heap max_heap_tablesize                                                                       |
