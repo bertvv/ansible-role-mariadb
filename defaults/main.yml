@@ -22,7 +22,7 @@ Max_connections: 300
 
 thread_cachesize: 16
 
-skip-nameresolve: true
+skip_nameresolve: true
 
 query_cachesize: '64M'
 
