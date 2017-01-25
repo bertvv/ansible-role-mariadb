@@ -1,0 +1,31 @@
+#
+# These groups are read by MariaDB server.
+# Use it for options that only the server (but not clients) should see
+#
+# See the examples of server my.cnf files in /usr/share/mysql/
+#
+
+# this is read by the standalone daemon and embedded servers
+[server]
+
+# this is only for embedded server
+[embedded]
+
+# These two groups are only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+
+
+[mariadb-5.5]
+innodb_file_per_table={{ mariadb_file_per_table }}
+innodb_buffer_pool_size={{ mariadb_buffer_pool_size }}
+max_connections = {{ mariadb_max_connections }}
+thread_cache_size= {{ mariadb_thread_cache_size }}
+query_cache_size= {{ mariadb_query_cache_size }}
+tmp_table_size= {{ mariadb_tmp_table_size }}
+max_heap_table_size= {{ mariadb_max_heap_table_size }}
+slow-query-log = {{ mariadb_slow_query_log }}
+slow-query-log-file = {{ mariadb_slow_query_log_file }}
+long_query_time = {{ mariadb_long_query_time }}
+wait_timeout = {{ mariadb_wait_timeout }}
