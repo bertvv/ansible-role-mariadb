@@ -24,8 +24,15 @@
 - name: Install config file for network settings
   template:
     src: etc_my.cnf.d_network.cnf.j2
-    dest: "{{ mariadb_config }}"
+    dest: "{{ mariadb_config_network }}"
   notify: restart mariadb
+  tags: mariadb
+
+- name: Install server config file
+  template:
+    src: etc_my.cnf.d_server.cnf.j2
+    dest: "{{ mariadb_config_server }}"
+    mode: '0600'
   tags: mariadb
 
 - name: Update root password
@@ -46,6 +53,7 @@
     dest: "{{ mariadb_my_config }}"
     mode: '0600'
   tags: mariadb
+
 
 - name: Update root password
   mysql_user:
