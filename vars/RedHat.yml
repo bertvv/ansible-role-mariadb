@@ -2,11 +2,13 @@
 ---
 
 mariadb_packages:
-  - mariadb
-  - mariadb-server
+  - MariaDB
+  - MariaDB-server
   - MySQL-python
 
 mariadb_service: mariadb
 
 mariadb_config: /etc/my.cnf.d/network.cnf
 mariadb_my_config: ~/.my.cnf
+
+mariadb_version: 10.2
