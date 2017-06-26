@@ -19,4 +19,4 @@
       - database: myappdb
         script: files/init.sql
   roles:
-    - mariadb
+    - bertvv.mariadb
