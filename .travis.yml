@@ -6,8 +6,8 @@ env:
   matrix:
     - DISTRIBUTION: centos
       VERSION: 7
-    - DISTRIBUTION: ubuntu
-      VERSION: 16.04
+    - DISTRIBUTION: fedora
+      VERSION: 25
 
 services:
   - docker
