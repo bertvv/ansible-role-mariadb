@@ -15,6 +15,8 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
 
 This role only supports InnoDB as storage engine.
 
+If you like/use this role, please consider giving it a star! Thank you!
+
 ## Requirements
 
 No specific requirements
