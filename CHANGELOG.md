@@ -2,7 +2,26 @@
 
 This file contains al notable changes to the mariadb Ansible role.
 
-This file adheres to the guidelines of [http://keepachangelog.com/](http://keepachangelog.com/). Versioning follows [Semantic Versioning](http://semver.org/).
+This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
+
+## 2.0.0 - 2017-07-13
+
+### Added
+
+- (GH-5) MariaDB is installed from the project repositories and the version can be chosen.
+- (GH-3) Added template for server.cnf (credit: [Louis Tournayre](https://github.com/louiznk))
+    - Made settings in server.cnf configurable and added default values.
+    - (GH-1) Added performance related settings (credit: [Thomas Eylenbosch](https://github.com/EylenboschThomas))
+- Added Docker based playbook and functional tests executed on Travis CI on each commit for all supported platforms (CentOS, Fedora)
+- Swappiness can be configured, and is turned off by default. This means that swapping processes to disk is avoided at all cost.
+
+### Changed
+
+- (GH-2) Made database initialisation idempotent. **In order to implement this, a breaking change was introduced in the way `mariadb_databases` is defined.**
+- (GH-4) Remove initialisation scripts from the server after executing them.
+- (GH-6) Test code was moved to a separate branch
+- The database root password is no longer stored on the server in `~/.my.cnf`
+- Fix ignored `host:` option in `mariadb_users`
 
 ## 1.1.3 - 2016-10-01
 
