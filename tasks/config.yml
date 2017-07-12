@@ -14,3 +14,10 @@
     dest: "{{ mariadb_config_network }}"
   notify: restart mariadb
   tags: mariadb
+
+- name: Configure swappiness
+  sysctl:
+    name: vm.swappiness
+    value: "{{ mariadb_swappiness }}"
+    state: present
+  tags: mariadb
