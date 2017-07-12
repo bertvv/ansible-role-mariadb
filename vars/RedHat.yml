@@ -8,4 +8,5 @@ mariadb_packages:
 
 mariadb_service: mariadb
 
-mariadb_config: /etc/my.cnf.d/network.cnf
+mariadb_config_network: /etc/my.cnf.d/network.cnf
+mariadb_config_server: /etc/my.cnf.d/server.cnf
