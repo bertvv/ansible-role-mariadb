@@ -96,18 +96,6 @@ mariadb_users:
     host: '192.168.56.%'
 ```
 
-### Initialising databases
-
-Init scripts are specified with a dict containing the fields `script:` and `database:`. The former specifies the location of the SQL script, the latter the name of the database to apply the script to. An example:
-
-```Yaml
-mariadb_init_scripts:
-  - database: myappdb
-    script: files/init.sql
-```
-
-This will execute the SQL script `files/init.sql` (relative to the Ansible main directory) in the database `myappdb`.
-
 ## Dependencies
 
 No dependencies.
