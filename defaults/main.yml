@@ -12,14 +12,19 @@ mariadb_bind_address: '127.0.0.1'
 
 # Server configuration (server.cnf)
 mariadb_port: 3306
+mariadb_skip_name_resolve: 1
 
-mariadb_max_allowed_packet: '16M'
+mariadb_log_warnings: '1'
+mariadb_slow_query_log: '0'
+mariadb_long_query_time: '10'
+
 mariadb_max_connections: 505
 mariadb_max_user_connections: 500
+mariadb_max_allowed_packet: '16M'
+mariadb_max_heap_table_size: '16M'
+ansible_wait_timeout: 60
 
-mariadb_thread_cache_size: 505
 mariadb_query_cache_size: 0
-
 mariadb_sort_buffer_size: '2M'
 mariadb_tmp_table_size: '16M'
 mariadb_read_buffer_size: '128k'

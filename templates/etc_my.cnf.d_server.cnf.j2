@@ -3,22 +3,27 @@
 # {{ ansible_managed }}
 
 [mariadb]
-port                           = {{ mariadb_port }}
 socket                         = {{ mariadb_socket }}
+port                           = {{ mariadb_port }}
+skip_name_resolve              = {{ mariadb_skip_name_resolve }}
 
 default_storage_engine         = InnoDB
 
 character_set_server           = utf8
 collation_server               = utf8_general_ci
 
+log_warnings                   = {{ mariadb_log_warnings }}
+slow_query_log                 = {{ mariadb_slow_query_log }}
+long_query_time                = {{ mariadb_long_query_time }}
+
 max_connections                = {{ mariadb_max_connections }}
 max_user_connections           = {{ mariadb_max_user_connections }}
 max_allowed_packet             = {{ mariadb_max_allowed_packet }}
+max_heap_table_size            = {{ mariadb_max_heap_table_size }}
 thread_concurrency             = {{ ansible_processor_vcpus * 2 }}
-thread_cache_size              = {{ mariadb_thread_cache_size }}
+wait_timeout                   = {{ ansible_wait_timeout }}
 
 query_cache_size               = {{ mariadb_query_cache_size }}
-
 sort_buffer_size               = {{ mariadb_sort_buffer_size }}
 tmp_table_size                 = {{ mariadb_tmp_table_size }}
 read_buffer_size               = {{ mariadb_read_buffer_size }}
