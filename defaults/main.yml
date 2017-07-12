@@ -5,6 +5,36 @@ mariadb_databases: []
 mariadb_users: []
 mariadb_root_password: ''
 
+mariadb_version: '10.2'
+
+# Network configuration (network.cnf)
 mariadb_bind_address: '127.0.0.1'
 
-mariadb_version: '10.2'
+# Server configuration (server.cnf)
+mariadb_port: 3306
+
+mariadb_max_allowed_packet: '16M'
+mariadb_max_connections: 505
+mariadb_max_user_connections: 500
+
+mariadb_thread_cache_size: 505
+mariadb_query_cache_size: 0
+
+mariadb_sort_buffer_size: '2M'
+mariadb_tmp_table_size: '16M'
+mariadb_read_buffer_size: '128k'
+mariadb_read_rnd_buffer_size: '256k'
+mariadb_join_buffer_size: '128k'
+mariadb_table_definition_cache: '1400'
+mariadb_table_open_cache: '2000'
+mariadb_table_open_cache_instances: '8'
+
+mariadb_innodb_strict_mode: 'ON'
+mariadb_innodb_file_format_check: 1
+mariadb_innodb_file_format: Barracuda
+mariadb_innodb_buffer_pool_size: '384M'
+mariadb_innodb_buffer_pool_instances: 8
+mariadb_innodb_file_per_table: 'ON'
+mariadb_innodb_flush_log_at_trx_commit: 1
+mariadb_innodb_log_buffer_size: '16M'
+mariadb_innodb_log_file_size: '48M'

@@ -1,135 +1,39 @@
+# MariaDB Server configuration
 #
-# These groups are read by MariaDB server.
-# Use it for options that only the server (but not clients) should see
-#
-# See the examples of server my.cnf files in /usr/share/mysql/
-#
-# For a server having more than 2GO MEMORY
-# this is read by the standalone daemon and embedded servers
 # {{ ansible_managed }}
 
-[server]
-
-[mysqldump]
-max_allowed_packet             = 16M
-
-
-
-# this is only for the mysqld standalone daemon
-[mysqld]
-
-port		                    = 3306
-socket		                    = /var/lib/mysql/mysql.sock
-skip-external-locking
-key_buffer_size                 = 384M
-max_allowed_packet              = 1M
-table_open_cache                = 512
-
-
-myisam_sort_buffer_size         = 64M
-thread_cache_size               = 8
-
-# Try number of CPU's*2 for thread_concurrency
-thread_concurrency              = {{ ansible_processor_vcpus * 2 }}
-
-max_allowed_packet              = 16M
-default_storage_engine          = InnoDB
-
-character_set_server            = utf8                                
-collation_server                = utf8_general_ci
-
-
-
-max_connections                 = 505                                 # Values < 1000 are typically good
-max_user_connections            = 500                                 # Limit one specific user/application
-thread_cache_size               = 505                                 # Up to max_connections makes sense
-
-
-# Query Cache
-
-query_cache_type                = 1                                   # Set to 0 to avoid global QC Mutex
-query_cache_size                = 32M                                 # Avoid too big (> 128M) QC because of QC clean-up lock!
-
-
-# Session variables
-
-sort_buffer_size                = 2M                                  # Could be too big for many small sorts
-tmp_table_size                  = 32M                                 # Make sure your temporary results do NOT contain BLOB/TEXT attributes
-
-read_buffer_size                = 128k                                # Resist to change this parameter if you do not know what you are doing (this is per connexion)
-read_rnd_buffer_size            = 256k                                # Resist to change this parameter if you do not know what you are doing (this is per connexion)
-join_buffer_size                = 128k                                # Resist to change this parameter if you do not know what you are doing (this is per connexion)
-
-
-
-# Other buffers and caches
-
-table_definition_cache          = 1400                                # As big as many tables you have
-table_open_cache                = 2000                                # connections x tables/connection (~2)
-table_open_cache_instances      = 16                                  # New default in 5.7
-
-
-# MyISAM variables
-
-key_buffer_size                 = 8M                                  # Set to 25 - 33 % of RAM if you still use MyISAM
-myisam_recover_options          = 'BACKUP,FORCE'
-
-# MEMORY variables
-
-max_heap_table_size            = 64M                                 # Should be greater or equal to tmp_table_size
-
-
-# InnoDB variables
-
-innodb_strict_mode             = ON
-innodb_file_format_check       = 1
-# innodb_file_format             = Barracuda                           # For dynamic and compressed InnoDB tables
-innodb_buffer_pool_size        = 384M                                # Go up to 80% of your available RAM
-innodb_buffer_pool_instances   = 8                                   # Bigger if huge InnoDB Buffer Pool or high concurrency
-
-innodb_file_per_table          = 1                                   # Is the recommended way nowadays
-# innodb_flush_method            = O_DIRECT                            # O_DIRECT is sometimes better for direct attached storage
-# innodb_write_io_threads        = 8                                   # If you have a strong I/O system or SSD
-# innodb_read_io_threads         = 8                                   # If you have a strong I/O system or SSD
-# innodb_io_capacity             = 1000                                # If you have a strong I/O system or SSD
-
-innodb_flush_log_at_trx_commit = 2                                   # 1 for durability, 0 or 2 for performance
-innodb_log_buffer_size         = 8M                                  # Bigger if innodb_flush_log_at_trx_commit = 0
-innodb_log_file_size           = 256M                                # Bigger means more write throughput but longer recovery time
-
-
-
-
-#
-# * Galera-related settings
-#
-[galera]
-# Mandatory settings
-#wsrep_on=ON
-#wsrep_provider=
-#wsrep_cluster_address=
-#binlog_format=row
-#default_storage_engine=InnoDB
-#innodb_autoinc_lock_mode=2
-#
-# Allow server to accept connections on all interfaces.
-#
-#bind-address=0.0.0.0
-#
-# Optional setting
-#wsrep_slave_threads=1
-#innodb_flush_log_at_trx_commit=0
-
-# this is only for embedded server
-[embedded]
-
-# This group is only read by MariaDB servers, not by MySQL.
-# If you use the same .cnf file for MySQL and MariaDB,
-# you can put MariaDB-only options here
 [mariadb]
+port                           = {{ mariadb_port }}
+socket                         = /var/lib/mysql/mysql.sock
 
-# This group is only read by MariaDB-10.1 servers.
-# If you use the same .cnf file for MariaDB of different versions,
-# use this group for options that older servers don't understand
-[mariadb-10.1]
+default_storage_engine         = InnoDB
 
+character_set_server           = utf8
+collation_server               = utf8_general_ci
+
+max_connections                = {{ mariadb_max_connections }}
+max_user_connections           = {{ mariadb_max_user_connections }}
+max_allowed_packet             = {{ mariadb_max_allowed_packet }}
+thread_concurrency             = {{ ansible_processor_vcpus * 2 }}
+thread_cache_size              = {{ mariadb_thread_cache_size }}
+
+query_cache_size               = {{ mariadb_query_cache_size }}
+
+sort_buffer_size               = {{ mariadb_sort_buffer_size }}
+tmp_table_size                 = {{ mariadb_tmp_table_size }}
+read_buffer_size               = {{ mariadb_read_buffer_size }}
+read_rnd_buffer_size           = {{ mariadb_read_rnd_buffer_size }}
+join_buffer_size               = {{ mariadb_join_buffer_size }}
+table_definition_cache         = {{ mariadb_table_definition_cache }}
+table_open_cache               = {{ mariadb_table_open_cache }}
+table_open_cache_instances     = {{ mariadb_table_open_cache_instances }}
+
+innodb_strict_mode             = {{ mariadb_innodb_strict_mode }}
+innodb_file_format_check       = {{ mariadb_innodb_file_format_check }}
+innodb_file_format             = {{ mariadb_innodb_file_format }}
+innodb_buffer_pool_size        = {{ mariadb_innodb_buffer_pool_size }}
+innodb_buffer_pool_instances   = {{ mariadb_innodb_buffer_pool_instances }}
+innodb_file_per_table          = {{ mariadb_innodb_file_per_table }}
+innodb_flush_log_at_trx_commit = {{ mariadb_innodb_flush_log_at_trx_commit }}
+innodb_log_buffer_size         = {{ mariadb_innodb_log_buffer_size }}
+innodb_log_file_size           = {{ mariadb_innodb_log_file_size }}
