@@ -28,7 +28,18 @@
   notify: restart mariadb
   tags: mariadb
 
-- name: Update root password
+- name: Check if root password is set
+  shell: >
+    mysqladmin -u root status
+  changed_when: false
+  failed_when: false
+  register: root_pwd_check
+
+- name: Results
+  debug:
+    msg: "RC: {{ root_pwd_check.rc }}\n{{ root_pwd_check.stderr }}"
+
+- name: Set MariaDB root password for the first time
   mysql_user:
     name: root
     host: "{{ item }}"
@@ -38,27 +49,40 @@
     - 127.0.0.1
     - ::1
     - localhost
+  when: root_pwd_check.rc == 0
   tags: mariadb
 
-- name: Install ~/.my.cnf
-  template:
-    src: home_my.cnf.j2
-    dest: "{{ mariadb_my_config }}"
-    mode: '0600'
+- name: Set MariaDB root password for local hostnames
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mariadb_root_password }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: root_pwd_check.rc != 0
   tags: mariadb
 
-- name: Update root password
+- name: Set MariaDB root password for ‘external’ host name
   mysql_user:
     name: root
     host: "{{ ansible_hostname }}"
     password: "{{ mariadb_root_password }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
     state: present
-  when: ansible_hostname != 'localhost'
+  when: ansible_hostname != 'localhost' and root_pwd_check.rc != 0
   tags: mariadb
 
 - name: Remove the test database
   mysql_db:
     name: test
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
     state: absent
   tags: mariadb
 
@@ -66,6 +90,8 @@
   mysql_user:
     name: ''
     host: "{{ item }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
     state: absent
   with_items:
     - localhost
@@ -75,6 +101,8 @@
 - name: Create the databases
   mysql_db:
     name: "{{ item }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
     state: present
   with_items: "{{ mariadb_databases }}"
   tags: mariadb
@@ -84,7 +112,8 @@
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     priv: "{{ item.priv }}"
-    host: "{{ item.host|default('localhost') }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
     state: present
   with_items: "{{ mariadb_users }}"
   tags: mariadb
@@ -101,5 +130,7 @@
     name: "{{ item.database }}"
     state: import
     target: "/tmp/{{ item.script|basename }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
   with_items: "{{ mariadb_init_scripts }}"
   tags: mariadb
