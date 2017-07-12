@@ -1,5 +1,15 @@
 # roles/mariadb/tasks/install.yml
 ---
+
+- name: Add official MariaDB repository
+  yum_repository:
+    name: MariaDB
+    description: Official MariaDB repository
+    baseurl: "http://yum.mariadb.org/{{ mariadb_version }}/{{ ansible_distribution|lower }}{{ ansible_distribution_major_version }}-amd64"
+    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+    gpgcheck: yes
+  tags: mariadb
+
 - name: Install packages
   package:
     name: "{{ item }}"
