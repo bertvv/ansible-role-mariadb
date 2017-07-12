@@ -4,7 +4,7 @@
 
 [mariadb]
 port                           = {{ mariadb_port }}
-socket                         = /var/lib/mysql/mysql.sock
+socket                         = {{ mariadb_socket }}
 
 default_storage_engine         = InnoDB
 
