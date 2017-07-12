@@ -1,0 +1,36 @@
+# roles/mariadb/tasks/databases.yml
+---
+
+- name: Remove the test database
+  mysql_db:
+    name: test
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: absent
+  tags: mariadb
+
+- name: Create user defined databases
+  mysql_db:
+    name: "{{ item }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+  with_items: "{{ mariadb_databases }}"
+  tags: mariadb
+
+- name: Copy database init scripts
+  copy:
+    src: "{{ item.script }}"
+    dest: "/tmp/{{ item.script|basename }}"
+  with_items: "{{ mariadb_init_scripts }}"
+  tags: mariadb
+
+- name: Initialise databases
+  mysql_db:
+    name: "{{ item.database }}"
+    state: import
+    target: "/tmp/{{ item.script|basename }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+  with_items: "{{ mariadb_init_scripts }}"
+  tags: mariadb
