@@ -1,0 +1,23 @@
+# roles/mariadb/tasks/users.yml
+---
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host_all: yes
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: absent
+  tags: mariadb
+
+- name: Create the users
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: "{{ item.host|default('localhost') }}"
+    priv: "{{ item.priv }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+  with_items: "{{ mariadb_users }}"
+  tags: mariadb

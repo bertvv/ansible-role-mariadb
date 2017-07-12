@@ -1,0 +1,9 @@
+# roles/mariadb/tasks/config.yml
+---
+
+- name: Install config file for network settings
+  template:
+    src: etc_my.cnf.d_network.cnf.j2
+    dest: "{{ mariadb_config }}"
+  notify: restart mariadb
+  tags: mariadb

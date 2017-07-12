@@ -4,7 +4,7 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
 
 - Install MariaDB packages
 - Remove unsafe defaults:
-    - change root password
+    - set database root password (remark that once set, this role is unable to *change* the database root password)
     - remove anonymous users
     - remove test database
 - Create users and databases
@@ -59,31 +59,23 @@ No dependencies.
 
 ## Example Playbook
 
-See the [test playbook](tests/test.yml)
+See the [test playbook](https://github.com/bertvv/ansible-role-mariadb/blob/docker-tests/test.yml)
 
 ## Testing
 
-The `tests` directory contains tests for this role in the form of a Vagrant environment. When running `vagrant up`, a VM is generated for each supported platform and the test playbook is applied to it.
+Test code is stored in separate branches. See the appropriate README
 
-The directory `tests/roles/mariadb` is a symbolic link that should point to the root of this project in order to work. To create it, do
-
-```ShellSession
-$ cd tests/
-$ mkdir roles
-$ ln -frs ../../PROJECT_DIR roles/mariadb
-```
-
-You may want to change the base box into one that you like. The current one is based on Box-Cutter's [CentOS Packer template](https://github.com/boxcutter/centos).
-
-## Contributing
-
-Issues, feature requests, ideas are appreciated and can be posted in the Issues section. Pull requests are also very welcome. Preferably, create a topic branch and when submitting, squash your commits into one (with a descriptive message).
+- [Docker test environment](https://github.com/bertvv/ansible-role-mariadb/tree/docker-tests)
+- Ansible test environment (TODO)
 
 ## License
 
-BSD
+2 clause BSD
 
-## Author Information
+## Contributors
 
-Bert Van Vreckem (bert.vanvreckem@gmail.com)
+Issues, feature requests, ideas, suggestions, etc. are appreciated and can be posted in the Issues section.
 
+Pull requests are also very welcome. Please create a topic branch for your proposed changes. If you don’t, this will create conflicts in your fork after the merge. Don’t hesitate to add yourself to the contributor list below in your PR!
+
+- [Bert Van Vreckem](https://github.com/bertvv/) (Maintainer)

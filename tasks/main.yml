@@ -7,26 +7,8 @@
     - "{{ ansible_os_family }}.yml"
   tags: mariadb
 
-- name: Install packages
-  package:
-    name: "{{ item }}"
-    state: installed
-  with_items: "{{ mariadb_packages }}"
-  tags: mariadb
-
-- name: Ensure service is started
-  service:
-    name: "{{ mariadb_service }}"
-    state: started
-    enabled: yes
-  tags: mariadb
-
-- name: Install config file for network settings
-  template:
-    src: etc_my.cnf.d_network.cnf.j2
-    dest: "{{ mariadb_config_network }}"
-  notify: restart mariadb
-  tags: mariadb
+- include: install.yml
+- include: config.yml
 
 - name: Install server config file
   template:
@@ -34,80 +16,8 @@
     dest: "{{ mariadb_config_server }}"
     mode: '0600'
   tags: mariadb
+  
+- include: root-password.yml
+- include: databases.yml
+- include: users.yml
 
-- name: Update root password
-  mysql_user:
-    name: root
-    host: "{{ item }}"
-    password: "{{ mariadb_root_password }}"
-    state: present
-  with_items:
-    - 127.0.0.1
-    - ::1
-    - localhost
-  tags: mariadb
-
-- name: Install ~/.my.cnf
-  template:
-    src: home_my.cnf.j2
-    dest: "{{ mariadb_my_config }}"
-    mode: '0600'
-  tags: mariadb
-
-
-- name: Update root password
-  mysql_user:
-    name: root
-    host: "{{ ansible_hostname }}"
-    password: "{{ mariadb_root_password }}"
-    state: present
-  when: ansible_hostname != 'localhost'
-  tags: mariadb
-
-- name: Remove the test database
-  mysql_db:
-    name: test
-    state: absent
-  tags: mariadb
-
-- name: Remove anonymous users
-  mysql_user:
-    name: ''
-    host: "{{ item }}"
-    state: absent
-  with_items:
-    - localhost
-    - "{{ ansible_hostname }}"
-  tags: mariadb
-
-- name: Create the databases
-  mysql_db:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ mariadb_databases }}"
-  tags: mariadb
-
-- name: Create the users
-  mysql_user:
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-    priv: "{{ item.priv }}"
-    host: "{{ item.host|default('localhost') }}"
-    state: present
-  with_items: "{{ mariadb_users }}"
-  tags: mariadb
-
-- name: Copy database init scripts
-  copy:
-    src: "{{ item.script }}"
-    dest: "/tmp/{{ item.script|basename }}"
-  with_items: "{{ mariadb_init_scripts }}"
-  tags: mariadb
-
-- name: Initialise databases
-  mysql_db:
-    name: "{{ item.database }}"
-    state: import
-    target: "/tmp/{{ item.script|basename }}"
-  with_items: "{{ mariadb_init_scripts }}"
-  tags: mariadb
