@@ -4,6 +4,12 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 2.0.1 - 2017-09-06
+
+### Changed
+
+- (GH-7, GH-8) Fix for downloading from the MariaDB repository on RHEL systems (credit: [@raznikk](https://github.com/raznikk), [@piuma](https://github.com/piuma))
+
 ## 2.0.0 - 2017-07-13
 
 ### Added

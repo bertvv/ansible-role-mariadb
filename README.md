@@ -123,6 +123,8 @@ Issues, feature requests, ideas, suggestions, etc. are appreciated and can be po
 
 Pull requests are also very welcome. Please create a topic branch for your proposed changes. If you don’t, this will create conflicts in your fork when you synchronise changes after the merge. Don’t hesitate to add yourself to the contributor list below in your PR!
 
+- [Barry Britt](https://github.com/raznikk)
 - [Bert Van Vreckem](https://github.com/bertvv/) (Maintainer)
 - [Louis Tournayre](https://github.com/louiznk)
+- [@piuma](https://github.com/piuma)
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
