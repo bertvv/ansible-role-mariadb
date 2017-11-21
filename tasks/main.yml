@@ -7,8 +7,8 @@
     - "{{ ansible_os_family }}.yml"
   tags: mariadb
 
-- include: install.yml
-- include: config.yml
-- include: root-password.yml
-- include: databases.yml
-- include: users.yml
+- include_tasks: install.yml
+- include_tasks: config.yml
+- include_tasks: root-password.yml
+- include_tasks: databases.yml
+- include_tasks: users.yml
