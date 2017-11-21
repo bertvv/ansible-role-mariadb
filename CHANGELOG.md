@@ -4,6 +4,12 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 2.0.2 - 2017-11-21
+
+### Changed
+
+- Removed Ansible 2.4 deprecation warnings (include -> include_tasks)
+
 ## 2.0.1 - 2017-09-06
 
 ### Changed
