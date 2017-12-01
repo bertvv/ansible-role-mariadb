@@ -1,0 +1,13 @@
+# roles/mariadb/tasks/install.yml
+---
+
+- name: Permit access to MySQL port
+  firewalld:
+    service: mysql
+    permanent: true
+    state: enabled
+
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted
