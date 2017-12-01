@@ -12,4 +12,9 @@
 - include_tasks: root-password.yml
 - include_tasks: databases.yml
 - include_tasks: users.yml
-- include_tasks: firewall.yml
+
+- include_tasks: firewall-yum.yml
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+- include_tasks: firewall-dnf.yml
+  when: ansible_distribution == "Fedora"
+

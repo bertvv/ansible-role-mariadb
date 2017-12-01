@@ -1,0 +1,20 @@
+# roles/mariadb/tasks/install.yml
+---
+
+- name: check if firewalld is installed
+  dnf:
+    list: firewalld
+  register: is_installed
+
+- name: Permit access to MySQL port
+  firewalld:
+    service: mysql
+    permanent: true
+    state: enabled
+  when: is_installed.results|selectattr("dnfstate", "match", "installed")|list|length != 0
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+  when: is_installed.results|selectattr("dnfstate", "match", "installed")|list|length != 0
