@@ -1,0 +1,22 @@
+# roles/mariadb/tasks/install.yml
+---
+
+- name: check if firewalld is installed
+  shell: rpm -q firewalld
+  args:
+    warn: no
+  register: rpm_check
+  failed_when: "'FAILED' in rpm_check.stderr"
+
+- name: Permit access to MySQL port
+  firewalld:
+    service: mysql
+    permanent: true
+    state: enabled
+  when: rpm_check.stdout != "package firewalld is not installed"
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+  when: rpm_check.stdout != "package firewalld is not installed"
