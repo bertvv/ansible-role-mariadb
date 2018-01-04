@@ -9,6 +9,10 @@ mariadb_version: '10.2'
 
 mariadb_swappiness: 0
 
+mariadb_character_set_server: utf8
+mariadb_collation_server: utf8_general_ci
+
+
 # Network configuration (network.cnf)
 mariadb_bind_address: '127.0.0.1'
 
