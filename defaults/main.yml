@@ -50,15 +50,12 @@ mariadb_innodb_log_file_size: '48M'
 
 mariadb_max_connect_errors: 10
 mariadb_sysdate_is_now: 1
-mariadb_log_bin: '/var/lib/mysql/data/mysql-bin'
 mariadb_logs_days: 10
+mariadb_expire_logs_days: 10
 mariadb_sync_binlog: 1
 mariadb_query_cache_type: 0
-maria_thread_cache_size: 50
+mariadb_thread_cache_size: 50
 mariadb_open_files_limit: '65353'
 mariadb_flush_method: 'O_DIRECT'
 mariadb_innodb_log_files_in_group: 2
 mariadb_buffer_pool_load_at_startup: 'ON'
-
-
-
