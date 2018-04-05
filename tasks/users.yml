@@ -16,6 +16,7 @@
     password: "{{ item.password }}"
     host: "{{ item.host|default('localhost') }}"
     priv: "{{ item.priv }}"
+    append_privs: "{{ item.append_privs|default('no') }}"
     login_user: root
     login_password: "{{ mariadb_root_password }}"
     state: present
