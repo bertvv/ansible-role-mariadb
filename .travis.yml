@@ -7,7 +7,7 @@ env:
     - DISTRIBUTION: centos
       VERSION: 7
     - DISTRIBUTION: fedora
-      VERSION: 25
+      VERSION: 28
 
 services:
   - docker
