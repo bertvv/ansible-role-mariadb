@@ -42,3 +42,20 @@ innodb_file_per_table          = {{ mariadb_innodb_file_per_table }}
 innodb_flush_log_at_trx_commit = {{ mariadb_innodb_flush_log_at_trx_commit }}
 innodb_log_buffer_size         = {{ mariadb_innodb_log_buffer_size }}
 innodb_log_file_size           = {{ mariadb_innodb_log_file_size }}
+
+# Toevoeging
+
+max_connect_errors			   = {{ mariadb_max_connect_errors }}
+sysdate_is_now				   = {{ mariadb_sysdate_is_now }}
+log_bin						   = {{ mariadb_log_bin }}
+expire_logs_days			   = {{ mariadb_expire_logs_days }}
+sync_binlog					   = {{ mariadb_sync_binlog }}
+query_cache_type			   = {{ mariadb_query_cache_type }}
+thread_cache_size			   = {{ mariadb_thread_cache_size }}
+open_files_limit			   = {{ mariadb_open_files_limit }}
+innodb_flush_method			   = {{ mariadb_innodb_flush_method }}
+innodb_log_files_in_group	   = {{ mariadb_innodb_log_files_in_group }}
+innodb_buffer_pool_load_at_startup   = {{ mariadb_innodb_buffer_pool_load_at_startup }}
+
+
+ 
