@@ -5,7 +5,7 @@ mariadb_databases: []
 mariadb_users: []
 mariadb_root_password: ''
 
-mariadb_version: '10.2'
+mariadb_version: '10.3'
 
 mariadb_configure_swappiness: true
 mariadb_swappiness: 0
