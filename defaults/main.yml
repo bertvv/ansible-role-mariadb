@@ -42,8 +42,6 @@ mariadb_table_open_cache: '2000'
 mariadb_table_open_cache_instances: '8'
 
 mariadb_innodb_strict_mode: 'ON'
-mariadb_innodb_file_format_check: 1
-mariadb_innodb_file_format: Barracuda
 mariadb_innodb_buffer_pool_size: '384M'
 mariadb_innodb_buffer_pool_instances: 8
 mariadb_innodb_file_per_table: 'ON'
