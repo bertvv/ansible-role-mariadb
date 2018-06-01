@@ -22,3 +22,10 @@
     state: present
   when: mariadb_configure_swappiness
   tags: mariadb
+
+- name: Ensure service is started
+  service:
+    name: "{{ mariadb_service }}"
+    state: started
+    enabled: true
+  tags: mariadb
