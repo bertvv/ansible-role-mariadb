@@ -9,8 +9,8 @@ skip_name_resolve              = {{ mariadb_skip_name_resolve }}
 
 default_storage_engine         = InnoDB
 
-character_set_server           = utf8
-collation_server               = utf8_general_ci
+character_set_server           = {{mariadb_character_set_server}}
+collation_server               = {{mariadb_collation_server}}
 
 log_warnings                   = {{ mariadb_log_warnings }}
 slow_query_log                 = {{ mariadb_slow_query_log }}
