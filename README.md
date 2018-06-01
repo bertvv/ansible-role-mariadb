@@ -40,37 +40,7 @@ None of the variables below are required. When not defined by the user, the [def
 
 ### Server configuration
 
-The variables below are set in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section. For more info on the values, read the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/).
-
-| Variable                                 | Default   | Comments                                                                                  |
-|:-----------------------------------------|:----------|:------------------------------------------------------------------------------------------|
-| `mariadb_innodb_buffer_pool_instances`   | 8         |                                                                                           |
-| `mariadb_innodb_buffer_pool_size`        | 384M      |                                                                                           |
-| `mariadb_innodb_file_format`             | Barracuda |                                                                                           |
-| `mariadb_innodb_file_format_check`       | 1         |                                                                                           |
-| `mariadb_innodb_file_per_table`          | ON        |                                                                                           |
-| `mariadb_innodb_flush_log_at_trx_commit` | 1         |                                                                                           |
-| `mariadb_innodb_log_buffer_size`         | 16M       |                                                                                           |
-| `mariadb_innodb_log_file_size`           | 48M       |                                                                                           |
-| `mariadb_innodb_strict_mode`             | ON        |                                                                                           |
-| `mariadb_join_buffer_size`               | 128K      |                                                                                           |
-| `mariadb_log_warnings`                   | 1         | Log critical warnings. Set to 0 to turn off, or greater than 1 for more verbose logging.  |
-| `mariadb_long_query_time`                | 10        |                                                                                           |
-| `mariadb_max_allowed_packet`             | 16M       |                                                                                           |
-| `mariadb_max_connections`                | 505       |                                                                                           |
-| `mariadb_max_heap_table_size`            | 16M       |                                                                                           |
-| `mariadb_max_user_connections`           | 500       |                                                                                           |
-| `mariadb_port`                           | 3306      |                                                                                           |
-| `mariadb_query_cache_size`               | 0         | The query cache is disabled by default. Set to a nonzero value to enable the query cache. |
-| `mariadb_read_buffer_size`               | 128K      |                                                                                           |
-| `mariadb_read_rnd_buffer_size`           | 256k      |                                                                                           |
-| `mariadb_skip_name_resolve`              | 1         | Use IP addresses only. Set to 0 to resolve host names.                                    |
-| `mariadb_slow_query_log`                 | 0         | Set to 1 to enable the slow query log.                                                    |
-| `mariadb_sort_buffer_size`               | 2M        |                                                                                           |
-| `mariadb_table_definition_cache`         | 1400      |                                                                                           |
-| `mariadb_table_open_cache`               | 2000      |                                                                                           |
-| `mariadb_table_open_cache_instances`     | 8         |                                                                                           |
-| `mariadb_tmp_table_size`                 | 16M       |                                                                                           |
+This role supports setting several variables in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section. Repeating them all here, would clutter the documentation too much. Please refer to the [configuration file template](templates/etc_my.cnf.d_server.cnf.j2) for an overview of the variables that can be set. The default values can be found in <defaults/main.yml>. For more info on the values, read the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/).
 
 ### Adding databases
 
