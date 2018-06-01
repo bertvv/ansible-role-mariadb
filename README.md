@@ -27,16 +27,17 @@ None of the variables below are required. When not defined by the user, the [def
 
 ### Basic configuration
 
-| Variable                | Default     | Comments                                                                                                    |
-|:------------------------|:------------|:------------------------------------------------------------------------------------------------------------|
-| `mariadb_bind_address`  | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
-| `mariadb_databases`     | []          | List of dicts specifyint the databases to be added. See below for details.                                  |
-| `mariadb_init_scripts`  | []          | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
-| `mariadb_port`          | 3306        | The port number used to listen to client requests                                                           |
-| `mariadb_root_password` | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
-| `mariadb_swappiness`    | 0           | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.        |
-| `mariadb_users`         | []          | List of dicts specifying the users to be added. See below for details.                                      |
-| `mariadb_version`       | '10.2'      | The version of MariaDB to be installed. Default is the current stable release.                              |
+| Variable                       | Default     | Comments                                                                                                    |
+| :---                           | :---        | :---                                                                                                        |
+| `mariadb_bind_address`         | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
+| `mariadb_databases`            | []          | List of dicts specifyint the databases to be added. See below for details.                                  |
+| `mariadb_init_scripts`         | []          | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
+| `mariadb_port`                 | 3306        | The port number used to listen to client requests                                                           |
+| `mariadb_root_password`        | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
+| `mariadb_configure_swappiness` | true        | When `true`, this role will set the "swappiness" value.                                                     |
+| `mariadb_swappiness`           | 0           | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.        |
+| `mariadb_users`                | []          | List of dicts specifying the users to be added. See below for details.                                      |
+| `mariadb_version`              | '10.2'      | The version of MariaDB to be installed. Default is the current stable release.                              |
 
 ### Server configuration
 
@@ -55,7 +56,9 @@ mariadb_databases:
 
 ### Adding users
 
-Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html). An example:
+Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`, and `append_privs`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html).
+
+An example:
 
 ```Yaml
 mariadb_users:
@@ -65,6 +68,7 @@ mariadb_users:
   - name: jack
     password: sekrit
     priv: 'jacksdb.*:ALL'
+    append_privs: 'yes'
     host: '192.168.56.%'
 ```
 
@@ -95,6 +99,9 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 
 - [Barry Britt](https://github.com/raznikk)
 - [Bert Van Vreckem](https://github.com/bertvv/) (Maintainer)
+- [Cédric Delgehier](https://github.com/cdelgehier)
 - [Louis Tournayre](https://github.com/louiznk)
 - [@piuma](https://github.com/piuma)
+- [Ripon Banik](https://github.com/riponbanik)
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
+- [Tom Stechele](https://github.com/tomstechele)

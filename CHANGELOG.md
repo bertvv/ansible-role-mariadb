@@ -4,6 +4,20 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 2.1.0 - 2018-06-01
+
+### Added
+
+- (GH-11) Allow default character set and collation to be configured (credit: Ripon Banik)
+- (GH-12) Added several server configuration variables for better performance. See `templates/etc_my.cnf.d_server.cnf.j2` (credit: Tom Stechele)
+- (GH-13) Allow the role to skip setting the swappiness of the mariadb process.
+- (GH-16) Allow user privileges to be added instead of overwritten (credit: Cédric Delgehier)
+
+### Changed
+
+- Bump default MariaDB version to 10.3, the current stable
+- Fix MariaDB service name in handler
+
 ## 2.0.2 - 2017-11-21
 
 ### Changed
