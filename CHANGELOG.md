@@ -12,6 +12,7 @@ This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning 
 - (GH-12) Added several server configuration variables for better performance. See `templates/etc_my.cnf.d_server.cnf.j2` (credit: Tom Stechele)
 - (GH-13) Allow the role to skip setting the swappiness of the mariadb process.
 - (GH-16) Allow user privileges to be added instead of overwritten (credit: Cédric Delgehier)
+- Allow custom configuration not specified in the template
 
 ### Changed
 

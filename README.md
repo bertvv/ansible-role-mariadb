@@ -31,6 +31,7 @@ None of the variables below are required. When not defined by the user, the [def
 | :---                           | :---        | :---                                                                                                        |
 | `mariadb_bind_address`         | '127.0.0.1' | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
 | `mariadb_databases`            | []          | List of dicts specifyint the databases to be added. See below for details.                                  |
+| `mariadb_custom_cnf`           | {}          | Dictionary with custom configuration.                                                                       |
 | `mariadb_init_scripts`         | []          | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
 | `mariadb_port`                 | 3306        | The port number used to listen to client requests                                                           |
 | `mariadb_root_password`        | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
@@ -42,6 +43,33 @@ None of the variables below are required. When not defined by the user, the [def
 ### Server configuration
 
 This role supports setting several variables in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section. Repeating them all here, would clutter the documentation too much. Please refer to the [configuration file template](templates/etc_my.cnf.d_server.cnf.j2) for an overview of the variables that can be set. The default values can be found in <defaults/main.yml>. For more info on the values, read the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/).
+
+### Custom configuration
+
+Settings that aren't supported by the server.cnf template, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf`.
+
+`mariadb_custom_cnf` should be a dictionary. Keys are section names and values are dictionaries with key-value mappings for individual settings.
+
+The following example enables the general query log:
+
+```yaml
+mariadb_custom_cnf:
+  mysqld:
+    general-log:
+    general-log-file: queries.log
+    log-output: file
+```
+
+The resulting config file will look like this:
+
+```ini
+[mysqld]
+general-log-file=queries.log
+general-log
+log-output=file
+```
+
+Remark the setting `general-log` was left empty, so doesn't get `=value` in the config file.
 
 ### Adding databases
 
