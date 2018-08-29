@@ -4,7 +4,7 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
-## 2.1.0 - 2018-06-01
+## 2.1.0 - 2018-08-29
 
 ### Added
 
