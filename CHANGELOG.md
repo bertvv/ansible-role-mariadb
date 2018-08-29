@@ -16,8 +16,15 @@ This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning 
 
 ### Changed
 
+- (GH-13) Allow the role to skip setting the swappiness of the mariadb process
+- (GH-15) Allow `mariadb_service` to be overridden by the user
 - Bump default MariaDB version to 10.3, the current stable
+- Bump versions of supported platforms (EL 7, Fedora 28)
 - Fix MariaDB service name in handler
+
+### Removed
+
+- Deprecated variables `innodb_file_format_check`, `innodb_file_format`
 
 ## 2.0.2 - 2017-11-21
 
