@@ -15,6 +15,7 @@ mariadb_collation_server: utf8_general_ci
 
 # Network configuration (network.cnf)
 
+mariadb_service: mariadb
 mariadb_bind_address: '127.0.0.1'
 mariadb_port: 3306
 
