@@ -25,7 +25,7 @@ max_user_connections            = {{ mariadb_max_user_connections }}
 max_allowed_packet              = {{ mariadb_max_allowed_packet }}
 max_heap_table_size             = {{ mariadb_max_heap_table_size }}
 thread_concurrency              = {{ ansible_processor_vcpus * 2 }}
-wait_timeout                    = {{ ansible_wait_timeout }}
+wait_timeout                    = {{ mariadb_wait_timeout }}
 
 query_cache_type                = {{ mariadb_query_cache_type }}
 query_cache_size                = {{ mariadb_query_cache_size }}
