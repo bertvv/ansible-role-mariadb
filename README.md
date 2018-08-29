@@ -36,9 +36,10 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_port`                 | 3306        | The port number used to listen to client requests                                                           |
 | `mariadb_root_password`        | ''          | The MariaDB root password. **It is highly recommended to change this!**                                     |
 | `mariadb_configure_swappiness` | true        | When `true`, this role will set the "swappiness" value.                                                     |
+| `mariadb_service  `            | mariadb     | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                      |
 | `mariadb_swappiness`           | 0           | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.        |
 | `mariadb_users`                | []          | List of dicts specifying the users to be added. See below for details.                                      |
-| `mariadb_version`              | '10.2'      | The version of MariaDB to be installed. Default is the current stable release.                              |
+| `mariadb_version`              | '10.3'      | The version of MariaDB to be installed. Default is the current stable release.                              |
 
 ### Server configuration
 
