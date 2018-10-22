@@ -135,3 +135,4 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Ripon Banik](https://github.com/riponbanik)
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
 - [Tom Stechele](https://github.com/tomstechele)
+- [Vincenzo Castiglia](https://github.com/CastixGitHub)

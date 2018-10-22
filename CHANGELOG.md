@@ -4,6 +4,13 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 2.2.0 - 2018-10-22
+
+### Added
+
+- Allow setting the yum download mirror with role variable `mariadb_mirror`
+- (GH-18) OracleLinux support (credit: [Vincenzo Castiglia](https://github.com/CastixGitHub))
+
 ## 2.1.0 - 2018-08-29
 
 ### Added
