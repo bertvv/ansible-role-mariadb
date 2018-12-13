@@ -6,6 +6,7 @@
     name: test
     login_user: root
     login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
     state: absent
   tags: mariadb
 
@@ -14,6 +15,7 @@
     name: "{{ item.name }}"
     login_user: root
     login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
     state: present
   with_items: "{{ mariadb_databases }}"
   register: db_creation
@@ -38,6 +40,7 @@
     target: "/tmp/{{ item.item.init_script|basename }}"
     login_user: root
     login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
   tags: mariadb
