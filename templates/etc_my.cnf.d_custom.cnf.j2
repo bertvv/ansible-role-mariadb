@@ -2,9 +2,9 @@
 #
 # {{ ansible_managed }}
 
-{% for section_name, section_contents in mariadb_custom_cnf.iteritems() %}
+{% for section_name, section_contents in mariadb_custom_cnf.items() %}
 [{{ section_name }}]
-{% for key, value in section_contents.iteritems() %}
+{% for key, value in section_contents.items() %}
 {% if value is defined and value %}
 {{ key }}={{ value }}
 {% else %}
