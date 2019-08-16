@@ -28,7 +28,7 @@
     name: vm.swappiness
     value: "{{ mariadb_swappiness }}"
     state: present
-  when: mariadb_configure_swappiness
+  when: mariadb_configure_swappiness|bool
   tags: mariadb
 
 - name: Ensure service is started
