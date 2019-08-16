@@ -25,7 +25,7 @@
 # in the previous step. This ensures idempotence.
 
 - name: Copy database init scripts
-  copy:
+  template:
     src: "{{ item.item.init_script }}"
     dest: "/tmp/{{ item.item.init_script|basename }}"
     mode: '0600'
