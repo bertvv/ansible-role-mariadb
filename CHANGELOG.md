@@ -4,6 +4,28 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 3.0.0 - 2019-08-18
+
+### Added
+
+- (GH-19) Allow the user to set arbitrary configuration settings by providing a dictionary of keys/values in new role variable `mariadb_server_cnf`
+- Vagrant test environment with base boxes for CentOS 7.6 and Fedora 30 from the [Bento project](http://chef.github.io/bento/).
+
+### Changed
+
+- (GH-20) Fix iteration for Python 3. (credit: [Dachi Natsvlishvili](https://github.com/dachinat))
+- (GH-21) Fix for mysql module in newer Ansible versions. By providing the `socket` location, it is possible to bypass the requirement to have `.my.cnf` files on the server with credentials. (credit: [Dachi Natsvlishvili](https://github.com/dachinat))
+- (GH-22) Database init scripts are now considered to be Jinja2 templates, so Ansible variables can be used in the scripts.
+- (GH-24) Solve deprecation warning in swappiness (credit: [Adail Horst](https://github.com/SpawW))
+- Update versions of supported distros, RedHat/CentOS 7.6 and Fedora 30
+- Fix package names for Fedora and RedHat/CentOS.
+- **Breaking change** Set default MariaDB version to latest stable release, 10.4.
+- Issue a warning when the role variable `mariadb_root_password` was not set.
+
+### Removed
+
+- **Breaking change.** Role variables for setting some variables in `server.cnf` were removed. You can now specify arbitrary settings using variable `mariadb_server_cnf`.
+
 ## 2.2.0 - 2018-10-22
 
 ### Added

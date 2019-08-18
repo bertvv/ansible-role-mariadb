@@ -11,11 +11,11 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
     - remove anonymous users
     - remove test database
 - Create users and databases
-- Manage configuration files `network.cnf`, and `server.cnf`
+- Manage configuration files `server.cnf` and `custom.cnf`
 
-This role only supports InnoDB as storage engine.
+Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
-If you like/use this role, please consider giving it a star! Thank you!
+Do you use/like this role? Please consider giving it a star. If you [rate this role](https://galaxy.ansible.com/bertvv/dhcp) on Ansible Galaxy and find it lacking in some respect, please consider opening an Issue with actionable feedback or a PR so we can improve it. Thank you!
 
 ## Requirements
 
@@ -30,33 +30,53 @@ None of the variables below are required. When not defined by the user, the [def
 | Variable                       | Default         | Comments                                                                                                    |
 | :---                           | :---            | :---                                                                                                        |
 | `mariadb_bind_address`         | '127.0.0.1'     | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
-| `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value.                                                     |
+| `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                           |
 | `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                       |
-| `mariadb_databases`            | []              | List of dicts specifyint the databases to be added. See below for details.                                  |
-| `mariadb_init_scripts`         | []              | List of dicts specifying any scripts to initialise the databases. Se below for details. ta                  |
+| `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                  |
 | `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                    |
 | `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                           |
-| `mariadb_root_password`        | ''              | The MariaDB root password. **It is highly recommended to change this!**                                     |
+| `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                 |
+| `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                       |
 | `mariadb_service  `            | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                      |
 | `mariadb_swappiness`           | 0               | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.        |
 | `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                      |
 | `mariadb_version`              | '10.3'          | The version of MariaDB to be installed. Default is the current stable release.                              |
 
-(1) Installing MariaDB from the default yum repository can be very slow (e.g. >10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
+**Remarks**
+
+(1) Installing MariaDB from the default yum repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
 
 ```yaml
 mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
 ```
 
+(2) **It is highly recommended to set the database root password!** Leaving the password empty is a serious security risk. The role will issue a warning if the variable was not set.
+
 ### Server configuration
 
-This role supports setting several variables in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section. Repeating them all here, would clutter the documentation too much. Please refer to the [configuration file template](templates/etc_my.cnf.d_server.cnf.j2) for an overview of the variables that can be set. The default values can be found in <defaults/main.yml>. For more info on the values, read the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/).
+You can specify the configuration in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
+
+For settings that don't get a `= value` in the config file, leave the value empty. In the following example, `slow-query-log`'s value is left empty:
+
+```yaml
+mariadb_server_cnf:
+  slow-query-log:
+  slow-query-log-file: 'mariadb-slow.log'
+```
+
+This would result in the following `server.cnf`:
+
+```ini
+[mariadb]
+slow-query-log
+slow-query-log-file = mariadb-slow.log
+```
 
 ### Custom configuration
 
-Settings that aren't supported by the server.cnf template, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf`.
+Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf`.
 
-`mariadb_custom_cnf` should be a dictionary. Keys are section names and values are dictionaries with key-value mappings for individual settings.
+Just like `mariadb_server_cnf`, the variable `mariadb_custom_cnf` should be a dictionary. Keys are section names and values are dictionaries with key-value mappings for individual settings.
 
 The following example enables the general query log:
 
@@ -76,8 +96,6 @@ general-log-file=queries.log
 general-log
 log-output=file
 ```
-
-Remark the setting `general-log` was left empty, so doesn't get `=value` in the config file.
 
 ### Adding databases
 
@@ -118,10 +136,10 @@ See the [test playbook](https://github.com/bertvv/ansible-role-mariadb/blob/dock
 
 ## Testing
 
-Test code is stored in separate branches. See the appropriate README:
+Test code is stored in separate branches. See the appropriate README for details:
 
 - [Docker test environment](https://github.com/bertvv/ansible-role-mariadb/tree/docker-tests)
-- Ansible test environment (TODO)
+- [Ansible test environment](https://github.com/bertvv/ansible-role-mariadb/tree/vagrant-tests)
 
 ## License
 
