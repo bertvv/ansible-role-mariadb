@@ -4,7 +4,7 @@
 mariadb_packages:
   - MariaDB-common
   - MariaDB-server
-  - MySQL-python
+  - python3-PyMySQL
 
 mariadb_socket: /var/lib/mysql/mysql.sock
 
