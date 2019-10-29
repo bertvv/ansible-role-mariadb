@@ -21,3 +21,6 @@ mariadb_server_cnf: {}
 
 # Custom configuration
 mariadb_custom_cnf: {}
+
+# Datadir configuration
+mysqld_datadir:
