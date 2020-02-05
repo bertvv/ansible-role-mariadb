@@ -9,7 +9,31 @@
   tags: mariadb
 
 - include_tasks: install.yml
+
 - include_tasks: config.yml
+
+- name: Authentication changes in version 10.4 message
+  debug:
+    msg: >
+      Authentication has changed in version 10.4. Both the root user and
+      the user that owns the data directory (mysql by default) now utilize
+      the unix_socket plugin for passwordless access, and are created with
+      an invalid password. Therefore setting a password isn't required for
+      those user accounts accessing via the unix socket. Please see
+      https://mariadb.org/authentication-in-mariadb-10-4/ .
+      Skipping authentication setup tasks!
+  when: mariadb_version is version('10.4', '>=')
+
 - include_tasks: root-password.yml
+  when:
+  - not mariadb_auth_unix_plugin
+  - mariadb_version is version('10.4', '<')
+
+- include_tasks: auth-unix-plugin.yml
+  when:
+  - mariadb_auth_unix_plugin
+  - mariadb_version is version('10.4', '<')
+
 - include_tasks: databases.yml
+
 - include_tasks: users.yml

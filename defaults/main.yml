@@ -4,6 +4,7 @@
 mariadb_databases: []
 mariadb_users: []
 mariadb_root_password: ''
+mariadb_auth_unix_plugin: false
 
 mariadb_mirror: yum.mariadb.org
 mariadb_version: '10.4'
