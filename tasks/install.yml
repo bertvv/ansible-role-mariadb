@@ -10,6 +10,24 @@
     gpgcheck: true
   tags: mariadb
 
+- name: Create daemon group with specified gid
+  group:
+    name: "{{ mariadb_system_user.name }}"
+    gid: "{{ mariadb_system_user.gid }}"
+    system: true
+    state: present
+
+- name: Create daemon user with specified uid
+  user:
+    name: "{{ mariadb_system_user.name }}"
+    uid: "{{ mariadb_system_user.uid }}"
+    system: true
+    group: "{{ mariadb_system_user.name }}"
+    shell: "{{ mariadb_system_user.shell }}"
+    comment: MariaDB user
+    create_home: false
+    skeleton: false
+
 - name: Install packages
   package:
     name: "{{ item }}"

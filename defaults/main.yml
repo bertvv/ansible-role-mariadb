@@ -11,6 +11,13 @@ mariadb_version: '10.4'
 mariadb_configure_swappiness: true
 mariadb_swappiness: 0
 
+# 27 is default in /usr/share/doc/setup-*/uidgid
+mariadb_system_user:
+  name: 'mysql'
+  uid: 27
+  gid: 27
+  shell: '/sbin/nologin'
+
 # Network configuration (network.cnf)
 
 mariadb_service: mariadb
