@@ -31,9 +31,32 @@
   when: mariadb_configure_swappiness|bool
   tags: mariadb
 
-- name: Ensure service is started
+- name: Check if MariaDB Service Exists
+  stat: 
+    path: /etc/systemd/system/mysql.service
+  register: service_status
+
+- name: Ensure service is restarted
   service:
     name: "{{ mariadb_service }}"
-    state: started
+    state: restarted
     enabled: true
+  when: "'galera' not in role_names"
   tags: mariadb
+
+- name: Ensure node joins cluster
+  service:
+    name: "{{ mariadb_service }}"
+    state: restarted
+  when:
+    - service_status.stat.exists ==  False
+    - "'galera' in role_names"
+    - not is_bootstrap_node|bool
+  tags: mariadb
+
+- name: Ensure cluster is active
+  shell: galera_new_cluster
+  when:
+    - service_status.stat.exists ==  False
+    - "'galera' in role_names"
+    - is_bootstrap_node|bool

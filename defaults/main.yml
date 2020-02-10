@@ -21,3 +21,6 @@ mariadb_server_cnf: {}
 
 # Custom configuration
 mariadb_custom_cnf: {}
+
+# Galera configuration
+is_bootstrap_node: false
