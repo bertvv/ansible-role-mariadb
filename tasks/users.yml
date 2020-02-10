@@ -9,6 +9,8 @@
     login_password: "{{ mariadb_root_password }}"
     login_unix_socket: "{{ mariadb_socket }}"
     state: absent
+  when:
+    - service_status.stat.exists == False
   tags: mariadb
 
 - name: Create the users
@@ -23,4 +25,12 @@
     login_unix_socket: "{{ mariadb_socket }}"
     state: present
   with_items: "{{ mariadb_users }}"
+  when:
+    - service_status.stat.exists == False
   tags: mariadb
+  
+- name: Ensure the service is stopped when part of galera cluster
+  service: 
+    name: mariadb
+    state: stopped
+  when: "'galera' in role_names"
