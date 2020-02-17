@@ -31,6 +31,13 @@
   when: mariadb_configure_swappiness|bool
   tags: mariadb
 
+- name: Configure logrotate
+  template:
+    src: etc_logrotate.d_mysql.j2
+    dest: "{{ mariadb_config_logrotate }}"
+  when: mariadb_logrotate.configure|bool
+  tags: mariadb
+
 - name: Ensure service is started
   service:
     name: "{{ mariadb_service }}"

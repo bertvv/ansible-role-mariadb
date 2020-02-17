@@ -19,6 +19,12 @@ mariadb_system_user:
   gid: 27
   shell: '/sbin/nologin'
 
+mariadb_logrotate:
+  configure: true
+  files:
+  - "/var/lib/mysql/mysqld.log"
+  rotate: 3
+
 # Network configuration (network.cnf)
 
 mariadb_service: mariadb
