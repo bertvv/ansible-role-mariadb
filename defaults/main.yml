@@ -13,8 +13,6 @@ mariadb_swappiness: 0
 
 mariadb_logrotate:
   configure: true
-  files:
-  - "/var/lib/mysql/mysqld.log"
   rotate: 3
 
 # Network configuration (network.cnf)

@@ -31,6 +31,16 @@
   when: mariadb_configure_swappiness|bool
   tags: mariadb
 
+# SELinux context mysqld_log_t is default for /var/log/mariadb
+- name: Create log directory
+  file:
+    state: directory
+    path: /var/log/mariadb
+    owner: mysql
+    group: mysql
+    mode: 0755
+  when: mariadb_logrotate.configure|bool
+
 - name: Configure logrotate
   template:
     src: etc_logrotate.d_mysql.j2

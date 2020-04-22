@@ -20,7 +20,7 @@
 # ATTENTION: This /root/.my.cnf should be readable ONLY
 # for root !
 
-{{ mariadb_logrotate.files | join(' ') }} {
+/var/log/mariadb/*.log {
         # create 600 mysql mysql
         notifempty
         daily
