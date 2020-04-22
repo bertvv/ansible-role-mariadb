@@ -21,8 +21,6 @@ mariadb_system_user:
 
 mariadb_logrotate:
   configure: true
-  files:
-  - "/var/lib/mysql/mysqld.log"
   rotate: 3
 
 # Network configuration (network.cnf)
