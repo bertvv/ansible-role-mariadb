@@ -8,6 +8,8 @@ env:
       VERSION: 7
     - DISTRIBUTION: fedora
       VERSION: 30
+    - DISTRIBUTION: ubuntu
+      VERSION: 18
 
 services:
   - docker

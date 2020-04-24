@@ -8,6 +8,13 @@ mariadb_root_password: ''
 mariadb_mirror: yum.mariadb.org
 mariadb_version: '10.4'
 
+mariadb_apt_mirror: 'http://mirror.vpsfree.cz'
+mariadb_apt_repositories: "deb [arch=amd64,arm64,ppc64el] {{ mariadb_apt_mirror }}/mariadb/repo/{{ mariadb_version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+mariadb_pgp_key: "https://mariadb.org/mariadb_release_signing_key.asc"
+
+mariadb_apt_keyserver: 'keyserver.ubuntu.com'
+mariadb_apt_keyid: '0xF1656F24C74CD1D8'
+
 mariadb_configure_swappiness: true
 mariadb_swappiness: 0
 

@@ -1,0 +1,12 @@
+# roles/mariadb/vars/Ubuntu.yml
+---
+mariadb_packages:
+  - mariadb-common
+  - mariadb-server
+
+mariadb_socket: /var/run/mysqld/mysqld.sock
+mariadb_config_server: /etc/mysql/my.cnf
+mariadb_config_network: /etc/mysql/my.cnf
+mariadb_config_custom: /etc/mysql/mariadb.conf.d/custom.cnf
+
+mariadb_service: mariadb.service

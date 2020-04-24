@@ -1,0 +1,47 @@
+# roles/mariadb/tasks/install.yml
+---
+- name: Check Python3 present
+  stat:
+    path: /usr/bin/python3
+  register: python3ok
+
+- name: correct python version selected
+  alternatives:
+    name: python
+    link: /usr/bin/python
+    path: /usr/bin/python3
+  when: python3ok.stat.exists
+
+- name: Add an Apt signing key from URL
+  apt_key:
+    url: "{{ mariadb_pgp_key }}"
+    state: present
+
+- name: Add official MariaDB repository
+  apt_repository:
+    repo: "{{ mariadb_apt_repositories }}"
+    state: present
+  tags: mariadb
+
+- name: Install Install MariaDB
+  apt:
+    name: "{{ mariadb_packages }}"
+    state: latest
+    update_cache: yes
+  tags: mariadb
+
+- debug:
+    msg: '{{ ansible_python["version"]["major"] }}'
+
+
+- name: Install MySQL-python
+  apt:
+    name: "python3-pymysql"
+    state: latest
+  when: ansible_python["version"]["major"] == 3
+
+- name: Install MySQL-python
+  apt:
+    name: "python-pymysql"
+    state: latest
+  when: ansible_python["version"]["major"] == 2

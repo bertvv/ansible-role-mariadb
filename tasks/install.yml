@@ -1,7 +1,6 @@
 # roles/mariadb/tasks/install.yml
 ---
-
-- name: Add official MariaDB repository
+- name: Add official MariaDB repository Centos 7 or Fedora 30
   yum_repository:
     name: MariaDB
     description: Official MariaDB repository
@@ -9,10 +8,65 @@
     gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
     gpgcheck: true
   tags: mariadb
+  become: true
+  when:
+    - ansible_facts['distribution'] == "CentOS" or ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] == "7" or ansible_facts['distribution_major_version'] == "30"
 
-- name: Install packages
+- name: Check MariaDB Centos8 repo installed
+  stat:
+    path: /etc/yum.repos.d/mariadb.repo
+  register: c8Mariadbpreo
+
+- name: Install Centos 8 MariaDB repo
+  block:
+  - name: Get MariaDB repo installer Centos 8
+    get_url:
+      url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      dest: /tmp/mariadb_repo_setup
+      mode: '0770'
+  - name: Install MariaDB repo script Centos8
+    shell: /tmp/mariadb_repo_setup
+  - name: Remove repo installer script
+    file:
+      path: /tmp/mariadb_repo_setup
+      state: absent
+  when:
+    - not c8Mariadbpreo.stat.exists
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "8"
+
+- name: Install Install MariaDB
   package:
     name: "{{ item }}"
     state: installed
   with_items: "{{ mariadb_packages }}"
   tags: mariadb
+
+- name: Install MySQL-python Centos7
+  package:
+    name: MySQL-python
+    state: installed
+  tags: mariadb
+  when:
+    - ansible_facts['distribution'] == "CentOS" or ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution_major_version'] == "7" or ansible_facts['distribution_major_version'] == "30"
+
+
+- name: Install MySQL-python
+  package:
+    name: "python3-PyMySQL"
+    state: installed
+  when:
+    - ansible_python['version']['major'] == 3
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "8"
+
+- name: Install MySQL-python
+  package:
+    name: "python-PyMySQL"
+    state: installed
+  when:
+    - ansible_python['version']['major'] == 2
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution_major_version'] == "8"
