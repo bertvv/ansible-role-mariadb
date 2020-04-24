@@ -13,8 +13,8 @@ galaxy_info:
       versions:
         - 30
     - name: Ubuntu
-        versions:
-          - 18
+      versions:
+        - 18
   galaxy_tags:
     - database
     - sql
