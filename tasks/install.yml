@@ -1,6 +1,6 @@
 # roles/mariadb/tasks/install.yml
 ---
-- name: Add official MariaDB repository Centos 7 or Fedora 30
+- name: Add official MariaDB repository Centos/RedHat 7 or Fedora 30
   yum_repository:
     name: MariaDB
     description: Official MariaDB repository
@@ -10,22 +10,22 @@
   tags: mariadb
   become: true
   when:
-    - ansible_facts['distribution'] == "CentOS" or ansible_facts['distribution'] == "Fedora"
+    - ansible_os_family == "RedHat"
     - ansible_facts['distribution_major_version'] == "7" or ansible_facts['distribution_major_version'] == "30"
 
-- name: Check MariaDB Centos8 repo installed
+- name: Check MariaDB Centos/RegHat 8 repo installed
   stat:
     path: /etc/yum.repos.d/mariadb.repo
   register: c8Mariadbpreo
 
-- name: Install Centos 8 MariaDB repo
+- name: Install Centos/RedHat 8 MariaDB repo
   block:
-  - name: Get MariaDB repo installer Centos 8
+  - name: Get MariaDB repo installer RedHat 8
     get_url:
       url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
       dest: /tmp/mariadb_repo_setup
       mode: '0770'
-  - name: Install MariaDB repo script Centos8
+  - name: Install MariaDB repo script RedHat8
     shell: /tmp/mariadb_repo_setup
   - name: Remove repo installer script
     file:
@@ -33,7 +33,7 @@
       state: absent
   when:
     - not c8Mariadbpreo.stat.exists
-    - ansible_facts['distribution'] == "CentOS"
+    - ansible_os_family == "RedHat"
     - ansible_facts['distribution_major_version'] == "8"
 
 - name: Install Install MariaDB
@@ -43,13 +43,13 @@
   with_items: "{{ mariadb_packages }}"
   tags: mariadb
 
-- name: Install MySQL-python Centos7
+- name: Install MySQL-python Centos/RedHat 7
   package:
     name: MySQL-python
     state: installed
   tags: mariadb
   when:
-    - ansible_facts['distribution'] == "CentOS" or ansible_facts['distribution'] == "Fedora"
+    - ansible_os_family == "RedHat"
     - ansible_facts['distribution_major_version'] == "7" or ansible_facts['distribution_major_version'] == "30"
 
 
@@ -59,7 +59,7 @@
     state: installed
   when:
     - ansible_python['version']['major'] == 3
-    - ansible_facts['distribution'] == "CentOS"
+    - ansible_os_family == "RedHat"
     - ansible_facts['distribution_major_version'] == "8"
 
 - name: Install MySQL-python
@@ -68,5 +68,5 @@
     state: installed
   when:
     - ansible_python['version']['major'] == 2
-    - ansible_facts['distribution'] == "CentOS"
+    - ansible_os_family == "RedHat"
     - ansible_facts['distribution_major_version'] == "8"

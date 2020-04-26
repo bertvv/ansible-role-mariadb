@@ -10,7 +10,7 @@
 
 - include_tasks: install.yml
   when:
-    - ansible_facts['distribution'] == "CentOS"
+    - ansible_os_family == "RedHat"
 
 - include_tasks: installubuntu.yml
   when:
@@ -18,7 +18,7 @@
 
 - include_tasks: config.yml
   when:
-    - ansible_facts['distribution'] == "CentOS"
+    - ansible_os_family == "RedHat"
 
 - include_tasks: configubuntu.yml
   when:
