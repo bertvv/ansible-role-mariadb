@@ -30,8 +30,8 @@
     update_cache: yes
   tags: mariadb
 
-- debug:
-    msg: '{{ ansible_python["version"]["major"] }}'
+#- debug:
+#    msg: 'Python version:{{ ansible_python["version"]["major"] }}'
 
 
 - name: Install MySQL-python
