@@ -14,7 +14,7 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
 
 Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
-Do you use/like this role? Please consider giving it a star. If you [rate this role](https://galaxy.ansible.com/bertvv/dhcp) on Ansible Galaxy and find it lacking in some respect, please consider opening an Issue with actionable feedback or a PR so we can improve it. Thank you!
+Do you use/like this role? Please consider giving it a star. If you [rate this role](https://galaxy.ansible.com/bertvv/mariadb) on Ansible Galaxy and find it lacking in some respect, please consider opening an Issue with actionable feedback or a PR so we can improve it. Thank you!
 
 ## Requirements
 
