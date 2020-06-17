@@ -13,6 +13,7 @@
     gid: "{{ mariadb_system_user.gid }}"
     system: true
     state: present
+  tags: mariadb
 
 - name: Create daemon user with specified uid
   user:
@@ -23,7 +24,7 @@
     shell: "{{ mariadb_system_user.shell }}"
     comment: MariaDB user
     create_home: false
-    skeleton: false
+  tags: mariadb
 
 - name: Install packages
   package:
