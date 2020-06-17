@@ -10,7 +10,7 @@ mariadb_mirror: yum.mariadb.org
 mariadb_version: '10.4'
 
 mariadb_configure_swappiness: true
-mariadb_swappiness: 0
+mariadb_swappiness: "0"
 
 # Network configuration (network.cnf)
 
