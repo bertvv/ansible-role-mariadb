@@ -26,20 +26,20 @@ None of the variables below are required. When not defined by the user, the [def
 
 ### Basic configuration
 
-| Variable                       | Default         | Comments                                                                                                    |
-| :---                           | :---            | :---                                                                                                        |
-| `mariadb_bind_address`         | '127.0.0.1'     | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
-| `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                           |
-| `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                       |
-| `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                  |
-| `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                    |
-| `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                           |
-| `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                              |
-| `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                       |
-| `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                      |
-| `mariadb_swappiness`           | 0               | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.        |
-| `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                      |
-| `mariadb_version`              | '10.3'          | The version of MariaDB to be installed. Default is the current stable release.                              |
+| Variable                       | Default         | Comments                                                                                                     |
+| :---                           | :---            | :---                                                                                                         |
+| `mariadb_bind_address`         | '127.0.0.1'     | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces.  |
+| `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                            |
+| `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                        |
+| `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                   |
+| `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                     |
+| `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                            |
+| `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                               |
+| `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                        |
+| `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                       |
+| `mariadb_swappiness`           | '0'             | "Swappiness" value (string). System default is 60. A value of 0 means that swapping out processes is avoided.|
+| `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                       |
+| `mariadb_version`              | '10.4'          | The version of MariaDB to be installed. Default is the current stable release.                               |
 
 #### Remarks
 
@@ -55,12 +55,15 @@ mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
 
 You can specify the configuration in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
 
-For settings that don't get a `= value` in the config file, leave the value empty. In the following example, `slow-query-log`'s value is left empty:
+For settings that don't get a `= value` in the config file, leave the value empty. All values should be given as strings, so numerical values should be quoted.
+
+ In the following example, `slow-query-log`'s value is left empty:
 
 ```yaml
 mariadb_server_cnf:
   slow-query-log:
   slow-query-log-file: 'mariadb-slow.log'
+  long-query-time: '5.0'
 ```
 
 This would result in the following `server.cnf`:
