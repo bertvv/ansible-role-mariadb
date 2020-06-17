@@ -21,9 +21,10 @@
     uid: "{{ mariadb_system_user.uid }}"
     system: true
     group: "{{ mariadb_system_user.name }}"
-    shell: "{{ mariadb_system_user.shell }}"
-    comment: MariaDB user
+    comment: "{{ mariadb_system_user.comment }}"
+    home: "{{ mariadb_system_user.home }}"
     create_home: false
+    shell: "{{ mariadb_system_user.shell }}"
   tags: mariadb
 
 - name: Install packages
