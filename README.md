@@ -210,6 +210,7 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Dachi Natsvlishvili](https://github.com/dachinat)
 - [@herd-the-cats](https://github.com/herd-the-cats)
 - [Louis Tournayre](https://github.com/louiznk)
+- [Nate Henderson](https://github.com/nhenderson)
 - [@piuma](https://github.com/piuma)
 - [@raznikk](https://github.com/raznikk)
 - [Ripon Banik](https://github.com/riponbanik)
