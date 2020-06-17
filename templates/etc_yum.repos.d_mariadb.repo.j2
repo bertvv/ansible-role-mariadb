@@ -1,0 +1,11 @@
+[MariaDB]
+baseurl = "http://{{ mariadb_mirror }}/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel')|regex_replace('oraclelinux', 'centos') }}{{ ansible_distribution_major_version }}-amd64"
+enabled = 1
+gpgcheck = 1
+gpgkey = https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+name = Official MariaDB repository
+{% if ansible_distribution_file_variety == "RedHat" and ansible_distribution_major_version == "8" %}
+# Workaround for DNF bug in EL8
+# See <https://jira.mariadb.org/browse/MDEV-20673>
+module_hotfixes=1
+{% endif %}

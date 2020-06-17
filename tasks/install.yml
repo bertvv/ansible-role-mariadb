@@ -2,12 +2,9 @@
 ---
 
 - name: Add official MariaDB repository
-  yum_repository:
-    name: MariaDB
-    description: Official MariaDB repository
-    baseurl: "http://{{ mariadb_mirror }}/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel')|regex_replace('oraclelinux', 'centos') }}{{ ansible_distribution_major_version }}-amd64"
-    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-    gpgcheck: true
+  template:
+    src: etc_yum.repos.d_mariadb.repo.j2
+    dest: /etc/yum.repos.d/MariaDB.repo
   tags: mariadb
 
 - name: Install packages
