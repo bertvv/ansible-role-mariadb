@@ -6,7 +6,7 @@ sudo: required
 
 env:
   global:
-    - ROLE_NAME: bind
+    - ROLE_NAME: mariadb
   matrix:
     - MOLECULE_DISTRO: centos7
     - MOLECULE_DISTRO: centos8
