@@ -9,7 +9,6 @@
 
 - name: Install packages
   package:
-    name: "{{ item }}"
+    name: "{{ mariadb_packages }}"
     state: installed
-  with_items: "{{ mariadb_packages }}"
   tags: mariadb
