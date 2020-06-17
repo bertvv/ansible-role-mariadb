@@ -4,6 +4,8 @@
   tasks:
     # We run the BATS tests from the localhost, since they are black box tests
     - name: "Run BATS tests for {{ ansible_hostname }}"
-      shell: SUT_IP={{ ansible_eth1.ipv4.address }} bats {{ playbook_dir }}/files/mariadb.bats
+      shell: >
+        SUT_IP={{ ansible_eth1.ipv4.address }}
+        bats {{ playbook_dir }}/files/mariadb.bats
       delegate_to: localhost
       changed_when: false

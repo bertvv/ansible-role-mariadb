@@ -1,6 +1,5 @@
 # roles/mariadb/tasks/main.yml
 ---
-
 - name: Include distribution dependent variables
   include_vars: "{{ item }}"
   with_first_found:
@@ -10,9 +9,13 @@
     - "{{ ansible_os_family }}.yml"
   tags: mariadb
 
-- include_tasks: install.yml
+- name: Install MariaDB
+  include_tasks: install.yml
+  tags: mariadb
 
-- include_tasks: config.yml
+- name: Configure MariaDB
+  include_tasks: config.yml
+  tags: mariadb
 
 - name: Authentication changes in version 10.4 message
   debug:
@@ -25,17 +28,26 @@
       https://mariadb.org/authentication-in-mariadb-10-4/ .
       Skipping authentication setup tasks!
   when: mariadb_version is version('10.4', '>=')
+  tags: mariadb
 
-- include_tasks: root-password.yml
+- name: Set the database root password
+  include_tasks: root-password.yml
   when:
-  - not mariadb_auth_unix_plugin
-  - mariadb_version is version('10.4', '<')
+    - not mariadb_auth_unix_plugin
+    - mariadb_version is version('10.4', '<')
+  tags: mariadb
 
-- include_tasks: auth-unix-plugin.yml
+- name: Enable plugin unix_socket
+  include_tasks: auth-unix-plugin.yml
   when:
-  - mariadb_auth_unix_plugin
-  - mariadb_version is version('10.4', '<')
+    - mariadb_auth_unix_plugin
+    - mariadb_version is version('10.4', '<')
+  tags: mariadb
 
-- include_tasks: databases.yml
+- name: Create and initialize databases
+  include_tasks: databases.yml
+  tags: mariadb
 
-- include_tasks: users.yml
+- name: Create users
+  include_tasks: users.yml
+  tags: mariadb

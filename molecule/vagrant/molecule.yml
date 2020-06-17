@@ -1,3 +1,4 @@
+---
 dependency:
   name: galaxy
 driver:
@@ -9,7 +10,7 @@ driver:
 # a linting error.
 lint: |
   yamllint .
-  ansible-lint --exclude=molecule/default/verify.yml
+  ansible-lint -v .
 platforms:
   - name: dbc76
     box: bento/centos-7.6
