@@ -1,7 +1,6 @@
 ---
 - name: Molecule test playbook
   hosts: all
-  become: true
   vars:
     mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
     mariadb_bind_address: '0.0.0.0'
@@ -21,10 +20,10 @@
       - name: app1usr
         password: 'Ej{Quiv3'
         priv: 'app1db.*:ALL'
-        host: '192.168.56.%'
+        host: '172.17.%'
       - name: app2usr
         password: 'tytsHeab=3'
         priv: 'app2db.*:ALL'
-        host: '192.168.56.%'
+        host: '172.17.%'
   roles:
     - role: bertvv.mariadb

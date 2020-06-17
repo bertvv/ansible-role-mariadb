@@ -1,16 +1,16 @@
 ---
 dependency:
   name: galaxy
+
 driver:
   name: vagrant
   provider:
     name: virtualbox
-# Linting with yamllint and ansible-lint
-# verify.yml is skipped because it uses the shell: module, which would trigger
-# a linting error.
+
 lint: |
   yamllint .
   ansible-lint -v .
+
 platforms:
   - name: dbc76
     box: bento/centos-7.6
@@ -24,7 +24,15 @@ platforms:
       - network_name: private_network
         auto_config: true
         ip: "192.168.56.80"
+# - name: dbf32
+#   box: bento/fedora-32
+#   interfaces:
+#     - network_name: private_network
+#       auto_config: true
+#       ip: "192.168.56.32"
+
 provisioner:
   name: ansible
+
 verifier:
   name: ansible
