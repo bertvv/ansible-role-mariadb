@@ -48,6 +48,11 @@
   when: mariadb_logrotate.configure|bool
   tags: mariadb
 
+- name: Ensure Galera config file is removed before starting service
+  file:
+    path: /etc/my.cnf.d/galera.cnf
+    state: absent
+
 - name: Ensure service is started
   service:
     name: "{{ mariadb_service }}"

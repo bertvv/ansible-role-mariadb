@@ -1,0 +1,94 @@
+# roles/mariadb/tasks/galera.yml
+---
+
+# NOTE: This is to run the handlers before configuring galera
+#       if we don't do this, mariadb will restart after
+#       bootstrapping the cluster.
+- meta: flush_handlers
+
+- name: Enable galera repo
+  yum_repository: 
+    name: Galera
+    description: Galera yum repo
+    baseurl: http://releases.galeracluster.com/galera-3/centos/7/x86_64/
+    gpgkey: http://releases.galeracluster.com/GPG-KEY-galeracluster.com
+    gpgcheck: yes
+
+- name: Install dependancies
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - galera
+    - rsync
+    - policycoreutils-python
+
+- name: Stop MySQL service
+  service:
+    name: "{{ mariadb_service }}"
+    state: stopped
+  tags: mariadb
+
+- name: Kill any remaining MySQL processes
+  command: "pkill mysqld"
+  ignore_errors: true
+  tags: mariadb
+
+- name: Ensure template config file is present
+  template:
+    src: etc_my.cnf.d_galera.cnf.j2
+    dest: /etc/my.cnf.d/galera.cnf
+    mode: 0644
+  tags: mariadb
+
+- name: Allow MySQL to listen on TCP ports 4567,4568  and 4444 
+  seport:
+    ports: 4567,4568,4444
+    proto: tcp
+    setype: mysqld_port_t 
+    state: present
+  tags: mariadb
+
+- name: Allow MySQL to listen on UDP port 4567
+  seport:
+    ports: 4567
+    proto: udp
+    setype: mysqld_port_t 
+    state: present
+  tags: mariadb
+
+- name: Change mysqld_t domain to permissive
+  selinux_permissive:
+    name: mysqld_t
+    permissive: true
+  tags: mariadb
+
+- name: Copy SELinux policy file
+  template: 
+    src: galera.te.j2
+    dest: /galera.te
+    mode: 0644
+  tags: mariadb
+
+- name: Compile SELinux policy file and import
+  shell: cd / && checkmodule -M -m galera.te -o galera.mod && semodule_package -m galera.mod -o galera.pp && semodule -i galera.pp && rm -rf /galera.*
+  tags: mariadb
+
+- name: Change mysqld_t domain to permissive
+  selinux_permissive:
+    name: mysqld_t
+    permissive: false
+  ignore_errors: yes
+  tags: mariadb
+
+- name: Bootstrap cluster
+  command: galera_new_cluster
+  when: mariadb_galera_master|bool
+  tags: mariadb
+
+- name: Join node to cluster
+  service:
+    name: "{{ mariadb_service }}"
+    state: started
+  when: not mariadb_galera_master|bool
+  tags: mariadb

@@ -1,0 +1,10 @@
+module galera 1.0;
+
+require {
+        type rsync_exec_t;
+        type mysqld_t;
+        class file { execute execute_no_trans getattr open read };
+}
+
+#============= mysqld_t ==============
+allow mysqld_t rsync_exec_t:file { execute execute_no_trans getattr open read };
