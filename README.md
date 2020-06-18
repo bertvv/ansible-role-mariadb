@@ -26,20 +26,24 @@ None of the variables below are required. When not defined by the user, the [def
 
 ### Basic configuration
 
-| Variable                       | Default         | Comments                                                                                                    |
-| :---                           | :---            | :---                                                                                                        |
-| `mariadb_bind_address`         | '127.0.0.1'     | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces. |
-| `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                           |
-| `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                       |
-| `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                  |
-| `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                    |
-| `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                           |
-| `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                              |
-| `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                       |
-| `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                      |
-| `mariadb_swappiness`           | 0               | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.        |
-| `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                      |
-| `mariadb_version`              | '10.3'          | The version of MariaDB to be installed. Default is the current stable release.                              |
+| Variable                       | Default          | Comments                                                                                                                   |
+| :---                           | :---             | :---                                                                                                                       |
+| `mariadb_bind_address`         | '127.0.0.1'      | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces.                |
+| `mariadb_configure_swappiness` | true             | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                                          |
+| `mariadb_custom_cnf`           | {}               | Dictionary with custom configuration.                                                                                      |
+| `mariadb_databases`            | []               | List of dicts specifying the databases to be added. See below for details.                                                 |
+| `mariadb_mirror`               | yum.mariadb.org  | Download mirror for the .rpm package (1)                                                                                   |
+| `mariadb_port`                 | 3306             | The port number used to listen to client requests                                                                          |
+| `mariadb_root_password`        | ''               | The MariaDB root password. (2)                                                                                             |
+| `mariadb_server_cnf`           | {}               | Dictionary with server configuration.                                                                                      |
+| `mariadb_service`              | mariadb          | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                                     |
+| `mariadb_swappiness`           | 0                | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.                       |
+| `mariadb_users`                | []               | List of dicts specifying the users to be added. See below for details.                                                     |
+| `mariadb_version`              | '10.3'           | The version of MariaDB to be installed. Default is the current stable release.                                             |
+| `mariadb_galera_cluster_name`  | 'Galera cluster' | The name of the Galera cluster                                                                                             |
+| `mariadb_galera_nodes`         | []               | List of dicts specifying the IPv4 addresses of the cluster nodes. See below for details                                    |
+| `mariadb_galera_master`        | false            | If defined, Galera will be used. When `true`, this role will use that node to bootstrap the cluster. See below for details |
+| `mariadb_galera_node_address`  | ''               | Set this to the IPv4 address of the network interface of the corresponding host that is used in `mariadb_galera_nodes`     |
 
 #### Remarks
 
@@ -125,6 +129,46 @@ mariadb_users:
     host: '192.168.56.%'
 ```
 
+### Adding Galera cluster nodes
+
+The IPv4 addresses specified in this section are used to populate a comma-seperated list for the Galera cluster(i.e. `wsrep_cluster_address="gcomm://<nodes>"`).
+
+An example:
+
+```Yaml
+# ansible/group_vars/db/vars.yml
+#
+# variables specific to all hosts in db group
+mariadb_galera_nodes:
+  - 192.168.56.2
+  - 192.168.56.3
+  - 192.168.56.4
+```
+
+It's necesarry to specify the role and node address per host. Currently you have to assign the first node in the group as the master since it will be provisioned first.
+
+An example:
+
+```Yaml
+# ansible/host_vars/db01.yml
+#
+# variables specific to db01
+---
+
+mariadb_galera_master: true
+mariadb_galera_node_address: 192.168.56.2
+```
+
+```Yaml
+# ansible/host_vars/db02.yml
+#
+# variables specific to db02
+---
+
+mariadb_galera_master: false
+mariadb_galera_node_address: 192.168.56.3
+```
+
 ## Dependencies
 
 No dependencies.
@@ -205,6 +249,7 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Bert Van Vreckem](https://github.com/bertvv/) (Maintainer)
 - [Cédric Delgehier](https://github.com/cdelgehier)
 - [Dachi Natsvlishvili](https://github.com/dachinat)
+- [@fpkmatthi](https://github.com/fpkmatthi)
 - [@herd-the-cats](https://github.com/herd-the-cats)
 - [Louis Tournayre](https://github.com/louiznk)
 - [@piuma](https://github.com/piuma)
