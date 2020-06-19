@@ -52,8 +52,8 @@
   file:
     path: /etc/my.cnf.d/galera.cnf
     state: absent
-  tags: mariadb
-  
+  when: mariadb_galera_master is defined
+
 - name: Ensure service is started
   service:
     name: "{{ mariadb_service }}"
