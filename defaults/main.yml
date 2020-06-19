@@ -38,4 +38,3 @@ mariadb_custom_cnf: {}
 # Galera configuration
 mariadb_galera_cluster_name: 'Galera cluster'
 mariadb_galera_nodes: []
-mariadb_galera_master: false
