@@ -23,12 +23,19 @@
   notify: restart mariadb
   tags: mariadb
 
+- name: Check if sysctl executable exists. If not, swappiness cannot be set!
+  stat:
+    path: /usr/sbin/sysctl
+  register: sysctl_check
+
 - name: Configure swappiness
   sysctl:
     name: vm.swappiness
     value: "{{ mariadb_swappiness }}"
     state: present
-  when: mariadb_configure_swappiness|bool
+  when:
+    - mariadb_configure_swappiness|bool
+    - sysctl_check.stat.exists
   tags: mariadb
 
 # SELinux context mysqld_log_t is default for /var/log/mariadb
@@ -44,8 +51,9 @@
 - name: Configure logrotate
   template:
     src: etc_logrotate.d_mysql.j2
-    dest: "{{ mariadb_config_logrotate }}"
+    dest: /etc/logrotate.d/mysql
   when: mariadb_logrotate.configure|bool
+  notify: restart mariadb
   tags: mariadb
 
 - name: Ensure Galera config file is removed before starting service

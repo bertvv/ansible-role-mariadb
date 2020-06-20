@@ -18,6 +18,8 @@ mariadb_system_user:
   uid: 27
   gid: 27
   shell: '/sbin/nologin'
+  home: '/var/lib/mysql'
+  comment: 'MySQL Server'
 
 mariadb_logrotate:
   configure: true

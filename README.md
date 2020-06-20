@@ -14,7 +14,7 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
 
 Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
-Do you use/like this role? Please consider giving it a star. If you [rate this role](https://galaxy.ansible.com/bertvv/dhcp) on Ansible Galaxy and find it lacking in some respect, please consider opening an Issue with actionable feedback or a PR so we can improve it. Thank you!
+Do you use/like this role? Please consider giving it a star. If you [rate this role](https://galaxy.ansible.com/bertvv/mariadb) on Ansible Galaxy and find it lacking in some respect, please consider opening an Issue with actionable feedback or a PR so we can improve it. Thank you!
 
 ## Requirements
 
@@ -32,6 +32,10 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_configure_swappiness` | true             | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                                          |
 | `mariadb_custom_cnf`           | {}               | Dictionary with custom configuration.                                                                                      |
 | `mariadb_databases`            | []               | List of dicts specifying the databases to be added. See below for details.                                                 |
+| `mariadb_galera_cluster_name`  | 'Galera cluster' | The name of the Galera cluster                                                                                             |
+| `mariadb_galera_nodes`         | []               | List of dicts specifying the IPv4 addresses of the cluster nodes. See below for details                                    |
+| `mariadb_galera_master`        | false            | If defined, Galera will be used. When `true`, this role will use that node to bootstrap the cluster. See below for details |
+| `mariadb_galera_node_address`  | ''               | Set this to the IPv4 address of the network interface of the corresponding host that is used in `mariadb_galera_nodes`     |
 | `mariadb_mirror`               | yum.mariadb.org  | Download mirror for the .rpm package (1)                                                                                   |
 | `mariadb_port`                 | 3306             | The port number used to listen to client requests                                                                          |
 | `mariadb_root_password`        | ''               | The MariaDB root password. (2)                                                                                             |
@@ -40,10 +44,6 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_swappiness`           | 0                | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.                       |
 | `mariadb_users`                | []               | List of dicts specifying the users to be added. See below for details.                                                     |
 | `mariadb_version`              | '10.3'           | The version of MariaDB to be installed. Default is the current stable release.                                             |
-| `mariadb_galera_cluster_name`  | 'Galera cluster' | The name of the Galera cluster                                                                                             |
-| `mariadb_galera_nodes`         | []               | List of dicts specifying the IPv4 addresses of the cluster nodes. See below for details                                    |
-| `mariadb_galera_master`        | false            | If defined, Galera will be used. When `true`, this role will use that node to bootstrap the cluster. See below for details |
-| `mariadb_galera_node_address`  | ''               | Set this to the IPv4 address of the network interface of the corresponding host that is used in `mariadb_galera_nodes`     |
 
 #### Remarks
 
@@ -59,12 +59,15 @@ mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
 
 You can specify the configuration in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
 
-For settings that don't get a `= value` in the config file, leave the value empty. In the following example, `slow-query-log`'s value is left empty:
+For settings that don't get a `= value` in the config file, leave the value empty. All values should be given as strings, so numerical values should be quoted.
+
+ In the following example, `slow-query-log`'s value is left empty:
 
 ```yaml
 mariadb_server_cnf:
   slow-query-log:
   slow-query-log-file: 'mariadb-slow.log'
+  long-query-time: '5.0'
 ```
 
 This would result in the following `server.cnf`:
@@ -252,6 +255,7 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [@fpkmatthi](https://github.com/fpkmatthi)
 - [@herd-the-cats](https://github.com/herd-the-cats)
 - [Louis Tournayre](https://github.com/louiznk)
+- [Nate Henderson](https://github.com/nhenderson)
 - [@piuma](https://github.com/piuma)
 - [@raznikk](https://github.com/raznikk)
 - [Ripon Banik](https://github.com/riponbanik)

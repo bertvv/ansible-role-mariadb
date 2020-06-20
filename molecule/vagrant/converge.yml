@@ -11,6 +11,15 @@
       general-log-file: 'queries.log'
       slow-query-log:
       slow-query-log-file: 'mariadb-slow.log'
+      long-query-time: '5.0'
+    mariadb_custom_cnf:
+      mariadb:
+        autoset_open_files_limit:
+        max-connections: '20'
+      mysqld:
+        language: /usr/share/mysql/dutch
+    mariadb_configure_swappiness: true
+    mariadb_swappiness: '10'
     mariadb_databases:
       - name: emptydb
       - name: app1db

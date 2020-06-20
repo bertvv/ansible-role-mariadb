@@ -10,6 +10,7 @@ env:
   matrix:
     - MOLECULE_DISTRO: centos7
     - MOLECULE_DISTRO: centos8
+    - MOLECULE_DISTRO: fedora31
 
 # Enable docker support
 services:
