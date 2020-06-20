@@ -29,11 +29,6 @@
     state: stopped
   tags: mariadb
 
-- name: Kill any remaining MySQL processes
-  command: "pkill mysqld"
-  ignore_errors: true
-  tags: mariadb
-
 - name: Ensure template config file is present
   template:
     src: etc_my.cnf.d_galera.cnf.j2
@@ -70,14 +65,22 @@
     mode: 0644
   tags: mariadb
 
-- name: Compile SELinux policy file and import
-  shell: >
-    cd / &&
-    checkmodule -M -m galera.te -o galera.mod &&
-    semodule_package -m galera.mod -o galera.pp &&
-    semodule -i galera.pp &&
-    rm -rf /galera.*
+- name: Check if Galera module is loaded
+  command: semodule --list-modules
+  register: semodule_loaded
+  changed_when: '"galera" not in semodule_loaded.stdout'
   tags: mariadb
+
+- name: Copy Galera type enforcement file
+  template:
+    src: galera.te.j2
+    dest: /galera.te
+    mode: 0644
+  register: semodule_te
+  notify: build and install Galera policy
+  tags: mariadb
+
+- meta: flush_handlers
 
 - name: Change mysqld_t domain to permissive
   selinux_permissive:
