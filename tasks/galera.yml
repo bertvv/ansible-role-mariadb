@@ -4,7 +4,9 @@
 # NOTE: This is to run the handlers before configuring galera
 #       if we don't do this, mariadb will restart after
 #       bootstrapping the cluster.
-- meta: flush_handlers
+- name: Flush handlers
+  meta: flush_handlers
+  tags: mariadb
 
 - name: Enable galera repo
   yum_repository:
@@ -58,13 +60,6 @@
     permissive: true
   tags: mariadb
 
-- name: Copy SELinux policy file
-  template:
-    src: galera.te.j2
-    dest: /galera.te
-    mode: 0644
-  tags: mariadb
-
 - name: Check if Galera module is loaded
   command: semodule --list-modules
   register: semodule_loaded
@@ -77,12 +72,24 @@
     dest: /galera.te
     mode: 0644
   register: semodule_te
-  notify: build and install Galera policy
+  notify: build galera policy
   tags: mariadb
 
-- meta: flush_handlers
+- name: Flush handlers
+  meta: flush_handlers
+  tags: mariadb
 
-- name: Change mysqld_t domain to permissive
+- name: Delete intermediary policy files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/galera.te"
+    - "/galera.mod"
+    - "/galera.pp"
+  tags: mariadb
+
+- name: Change mysqld_t domain to enforcing
   selinux_permissive:
     name: mysqld_t
     permissive: false
