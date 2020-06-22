@@ -30,23 +30,9 @@
     state: present
   when: mariadb_configure_swappiness|bool
   tags: mariadb
-  
-- name: Changing datadir if mysqld_datadir is defined
-  lineinfile:
-    path: /etc/my.cnf
-    regexp: '^datadir='
-    line: "datadir={{ mysqld_datadir }}"
-  when: mysqld_datadir is defined
-  tags: mariadb
 
-- name: Changing onwership of the new datadir folder
-  file:
-    path: "{{ mysqld_datadir }}"
-    state: directory
-    owner: mysql
-    group: mysql
-    mode: '0755'
-  when: mysqld_datadir is defined
+- include_tasks: datadir.yml
+  when: (mysqld_datadir is not none) and (mysqld_datadir is defined)
 
 - name: Ensure service is started
   service:

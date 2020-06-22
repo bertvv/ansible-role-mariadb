@@ -1,0 +1,45 @@
+# roles/mariadb/tasks/datadir.yml
+---
+- name: Changing datadir
+  block:
+    - name: Changing datadir
+      lineinfile:
+        path: /etc/my.cnf
+        regexp: '^datadir='
+        line: "datadir={{ mysqld_datadir }}"
+    - name: Adding mysqld section
+      lineinfile:
+        path: /etc/my.cnf
+        state: present
+        insertbefore: '^datadir'
+        line: "[mysqld]"
+  when: (mysqld_datadir is not none) and (mysqld_datadir is defined)
+  tags: mariadb
+
+- name: Changing onwership to new datadir folder
+  file:
+    path: "{{ mysqld_datadir }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: '0755'
+  when: (mysqld_datadir is not none) and (mysqld_datadir is defined)
+  tags: mariadb
+
+- name: Moving data to new datadir
+  shell: |
+    if [ -f /var/lib/mysql/ibdata1 ]
+    then
+      mv /var/lib/mysql/* {{ mysqld_datadir }}
+    fi
+  when: (mysqld_datadir is not none) and (mysqld_datadir is defined)
+  tags: mariadb
+
+- name: Setting SELinux permissions
+  file:
+    path: "{{ mysqld_datadir }}"
+    state: directory
+    setype: mysqld_db_t
+    seuser: system_u
+  when: ansible_selinux['status'] == "enabled"
+  tags: mariadb
