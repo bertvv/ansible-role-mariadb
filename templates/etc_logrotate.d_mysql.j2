@@ -1,0 +1,40 @@
+# {{ ansible_managed }}
+
+# This logname can be set in /etc/my.cnf
+# by setting the variable "log-error"
+# in the [mysqld] section as follows:
+#
+# [mysqld]
+# log-error=/var/lib/mysql/mysqld.log
+#
+# If the root user has a password you have to create a
+# /root/.my.cnf configuration file with the following
+# content:
+#
+# [mysqladmin]
+# password = <secret> 
+# user= root
+#
+# where "<secret>" is the password. 
+#
+# ATTENTION: This /root/.my.cnf should be readable ONLY
+# for root !
+
+/var/log/mariadb/*.log {
+        # create 600 mysql mysql
+        notifempty
+        daily
+        rotate {{ mariadb_logrotate.rotate }}
+        missingok
+        compress
+    postrotate
+        # just if mysqld is really running
+        if test -x /usr/bin/mysqladmin && \
+           /usr/bin/mysqladmin ping &>/dev/null
+        then
+           /usr/bin/mysqladmin --local flush-error-log \
+                    flush-engine-log flush-general-log flush-slow-log
+        fi
+    endscript
+}
+

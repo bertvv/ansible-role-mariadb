@@ -1,62 +1,34 @@
 # roles/mariadb/tasks/install.yml
 ---
-- name: Add official MariaDB repository Centos/RedHat 7 or Fedora 30
-  yum_repository:
-    name: MariaDB
-    description: Official MariaDB repository
-    baseurl: "http://{{ mariadb_mirror }}/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel')|regex_replace('oraclelinux', 'centos') }}{{ ansible_distribution_major_version }}-amd64"
-    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-    gpgcheck: true
-  tags: mariadb
-  become: true
-  when:
-    - ansible_os_family == "RedHat"
-    - ansible_facts['distribution_major_version'] == "7" or ansible_facts['distribution_major_version'] == "30"
 
-- name: Check MariaDB Centos/RegHat 8 repo installed
-  stat:
-    path: /etc/yum.repos.d/mariadb.repo
-  register: c8Mariadbpreo
-
-- name: Install Centos/RedHat 8 MariaDB repo
-  block:
-  - name: Get MariaDB repo installer RedHat 8
-    get_url:
-      url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-      dest: /tmp/mariadb_repo_setup
-      mode: '0770'
-  - name: Install MariaDB repo script RedHat8
-    shell: /tmp/mariadb_repo_setup
-  - name: Remove repo installer script
-    file:
-      path: /tmp/mariadb_repo_setup
-      state: absent
-  when:
-    - not c8Mariadbpreo.stat.exists
-    - ansible_os_family == "RedHat"
-    - ansible_facts['distribution_major_version'] == "8"
-
-- name: Install Install MariaDB
-  package:
-    name: "{{ item }}"
-    state: installed
-  with_items: "{{ mariadb_packages }}"
+- name: Add official MariaDB repository
+  template:
+    src: etc_yum.repos.d_mariadb.repo.j2
+    dest: /etc/yum.repos.d/MariaDB.repo
   tags: mariadb
 
-- name: Install MySQL-python Centos/RedHat 7
+- name: Create daemon group with specified gid
+  group:
+    name: "{{ mariadb_system_user.name }}"
+    gid: "{{ mariadb_system_user.gid }}"
+    system: true
+    state: present
+  tags: mariadb
+
+- name: Create daemon user with specified uid
+  user:
+    name: "{{ mariadb_system_user.name }}"
+    uid: "{{ mariadb_system_user.uid }}"
+    system: true
+    group: "{{ mariadb_system_user.name }}"
+    comment: "{{ mariadb_system_user.comment }}"
+    home: "{{ mariadb_system_user.home }}"
+    create_home: false
+    shell: "{{ mariadb_system_user.shell }}"
+  tags: mariadb
+
+- name: Install packages
   package:
-    name: MySQL-python
+    name: "{{ mariadb_packages }}"
     state: installed
   tags: mariadb
-  when:
-    - ansible_os_family == "RedHat"
-    - ansible_facts['distribution_major_version'] == "7" or ansible_facts['distribution_major_version'] == "30"
-
-
-- name: Install MySQL-python
-  package:
-    name:  "{% ansible_python['version']['major'] is version('3', '==') | ternary('python3-PyMySQL', 'python-PyMySQL' %}"
-    state: installed
-  when:
-    - ansible_os_family == "RedHat"
-    - ansible_facts['distribution_major_version'] == "8"

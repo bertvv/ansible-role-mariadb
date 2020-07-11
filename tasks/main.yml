@@ -1,29 +1,53 @@
 # roles/mariadb/tasks/main.yml
 ---
-
 - name: Include distribution dependent variables
   include_vars: "{{ item }}"
   with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
   tags: mariadb
 
-- include_tasks: install.yml
-  when:
-    - ansible_os_family == "RedHat"
+- name: Install MariaDB
+  include_tasks: install.yml
+  tags: mariadb
 
-- include_tasks: installubuntu.yml
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
+- name: Configure MariaDB
+  include_tasks: config.yml
+  tags: mariadb
 
-- include_tasks: config.yml
-  when:
-    - ansible_os_family == "RedHat"
+- name: Authentication changes in version 10.4 message
+  debug:
+    msg: >
+      Authentication has changed in version 10.4. Both the root user and
+      the user that owns the data directory (mysql by default) now utilize
+      the unix_socket plugin for passwordless access, and are created with
+      an invalid password. Therefore setting a password isn't required for
+      those user accounts accessing via the unix socket. Please see
+      https://mariadb.org/authentication-in-mariadb-10-4/ .
+      Skipping authentication setup tasks!
+  when: mariadb_version is version('10.4', '>=')
+  tags: mariadb
 
-- include_tasks: configubuntu.yml
+- name: Set the database root password
+  include_tasks: root-password.yml
   when:
-    - ansible_facts['distribution'] == "Ubuntu"
+    - not mariadb_auth_unix_plugin
+    - mariadb_version is version('10.4', '<')
+  tags: mariadb
 
-- include_tasks: root-password.yml
-- include_tasks: databases.yml
-- include_tasks: users.yml
+- name: Enable plugin unix_socket
+  include_tasks: auth-unix-plugin.yml
+  when:
+    - mariadb_auth_unix_plugin
+    - mariadb_version is version('10.4', '<')
+  tags: mariadb
+
+- name: Create and initialize databases
+  include_tasks: databases.yml
+  tags: mariadb
+
+- name: Create users
+  include_tasks: users.yml
+  tags: mariadb

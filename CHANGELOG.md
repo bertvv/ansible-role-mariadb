@@ -11,6 +11,27 @@ Added Ubuntu 18 and Centos 8 support.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 3.1.0 - 2020-07-17
+
+### Added
+
+- Tests with Molecule and either Vagrant+VirtualBox or Docker
+- (GH-30) Added support for EL8
+- Added support for Fedora 31. Fedora 32 is as of yet not supported by MariaDB.
+- (GH-34) Added unix_socket authentication capability and skip password tasks for 10.4 because it has secure passwordless login with unix_socket by default. (credit: [@herd-the-cats](https://github.com/herd-the-cats))
+- (GH-37) Added logrotate management capability (credit: [@herd-the-cats](https://github.com/herd-the-cats))
+
+### Changed
+
+- Fixed linter warnings and code style
+- (GH-33) Fixed a bug that caused the task that set the root password to fail. (credit: [Nate Henderson](https://github.com/nhenderson))
+- (GH-35) Select predictable UID/GID for system user (credit: [@herd-the-cats](https://github.com/herd-the-cats))
+- Configure swappiness only if the required command `sysctl` exists. If the command does not exist (e.g. in minimal Docker containers), the task would fail.
+
+### Removed
+
+- Support for Fedora 30
+
 ## 3.0.0 - 2019-08-18
 
 ### Added

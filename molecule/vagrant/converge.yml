@@ -1,0 +1,39 @@
+---
+- name: Molecule test playbook
+  hosts: all
+  become: true
+  vars:
+    mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
+    mariadb_bind_address: '0.0.0.0'
+    mariadb_root_password: 'atOrryag&'
+    mariadb_server_cnf:
+      general-log:
+      general-log-file: 'queries.log'
+      slow-query-log:
+      slow-query-log-file: 'mariadb-slow.log'
+      long-query-time: '5.0'
+    mariadb_custom_cnf:
+      mariadb:
+        autoset_open_files_limit:
+        max-connections: '20'
+      mysqld:
+        language: /usr/share/mysql/dutch
+    mariadb_configure_swappiness: true
+    mariadb_swappiness: '10'
+    mariadb_databases:
+      - name: emptydb
+      - name: app1db
+        init_script: ../common/init.sql
+      - name: app2db
+        init_script: ../common/init.sql
+    mariadb_users:
+      - name: app1usr
+        password: 'Ej{Quiv3'
+        priv: 'app1db.*:ALL'
+        host: '192.168.56.%'
+      - name: app2usr
+        password: 'tytsHeab=3'
+        priv: 'app2db.*:ALL'
+        host: '192.168.56.%'
+  roles:
+    - role: bertvv.mariadb

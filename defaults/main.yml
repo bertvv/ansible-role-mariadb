@@ -3,15 +3,27 @@
 
 mariadb_databases: []
 mariadb_users: []
-mariadb_root_password: root
+mariadb_root_password: ''
+mariadb_auth_unix_plugin: false
 
 mariadb_mirror: yum.mariadb.org
 mariadb_version: '10.4'
 
-
-
 mariadb_configure_swappiness: true
-mariadb_swappiness: 0
+mariadb_swappiness: "0"
+
+# 27 is default in /usr/share/doc/setup-*/uidgid
+mariadb_system_user:
+  name: 'mysql'
+  uid: 27
+  gid: 27
+  shell: '/sbin/nologin'
+  home: '/var/lib/mysql'
+  comment: 'MySQL Server'
+
+mariadb_logrotate:
+  configure: true
+  rotate: 3
 
 # Network configuration (network.cnf)
 
