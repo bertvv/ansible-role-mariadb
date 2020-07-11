@@ -20,7 +20,6 @@
   with_items: "{{ mariadb_databases }}"
   register: db_creation
   tags: mariadb
-#  debugger: always
 
 # Below, the databases are initialised, but only when the database was created
 # in the previous step. This ensures idempotence.
@@ -33,7 +32,6 @@
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
   tags: mariadb
-#  debugger: always
 
 - name: Initialise databases
   mysql_db:

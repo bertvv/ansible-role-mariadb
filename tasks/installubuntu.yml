@@ -5,12 +5,12 @@
     path: /usr/bin/python3
   register: python3ok
 
-- name: correct python version selected
-  alternatives:
-    name: python
-    link: /usr/bin/python
-    path: /usr/bin/python3
-  when: python3ok.stat.exists
+#- name: correct python version selected
+#  alternatives:
+#    name: python
+#    link: /usr/bin/python
+#    path: /usr/bin/python3
+#  when: python3ok.stat.exists
 
 - name: Add an Apt signing key from URL
   apt_key:
@@ -30,18 +30,8 @@
     update_cache: yes
   tags: mariadb
 
-#- debug:
-#    msg: 'Python version:{{ ansible_python["version"]["major"] }}'
-
-
 - name: Install MySQL-python
   apt:
-    name: "python3-pymysql"
+    name: "{% ansible_python['version']['major'] is version('3', '==') | ternary('python3-pymysql', 'python-pymysql' %}"
     state: latest
-  when: ansible_python["version"]["major"] == 3
 
-- name: Install MySQL-python
-  apt:
-    name: "python-pymysql"
-    state: latest
-  when: ansible_python["version"]["major"] == 2

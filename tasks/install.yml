@@ -55,18 +55,8 @@
 
 - name: Install MySQL-python
   package:
-    name: "python3-PyMySQL"
+    name:  "{% ansible_python['version']['major'] is version('3', '==') | ternary('python3-PyMySQL', 'python-PyMySQL' %}"
     state: installed
   when:
-    - ansible_python['version']['major'] == 3
-    - ansible_os_family == "RedHat"
-    - ansible_facts['distribution_major_version'] == "8"
-
-- name: Install MySQL-python
-  package:
-    name: "python-PyMySQL"
-    state: installed
-  when:
-    - ansible_python['version']['major'] == 2
     - ansible_os_family == "RedHat"
     - ansible_facts['distribution_major_version'] == "8"
