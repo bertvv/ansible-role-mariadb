@@ -46,7 +46,9 @@
     owner: mysql
     group: mysql
     mode: 0755
-  when: mariadb_logrotate.configure|bool
+  when:
+    - mariadb_logrotate.configure|bool
+    - not ansible_facts['distribution'] == "Ubuntu"
 
 - name: Configure logrotate
   template:
@@ -55,6 +57,7 @@
   when: mariadb_logrotate.configure|bool
   notify: restart mariadb
   tags: mariadb
+  when: not ansible_facts['distribution'] == "Ubuntu"
 
 - name: Ensure service is started
   service:

@@ -11,6 +11,9 @@ env:
     - MOLECULE_DISTRO: centos7
     - MOLECULE_DISTRO: centos8
     - MOLECULE_DISTRO: fedora31
+    - MOLECULE_DISTRO: ubuntu16
+    - MOLECULE_DISTRO: ubuntu18
+    - MOLECULE_DISTRO: ubuntu20
 
 # Enable docker support
 services:
