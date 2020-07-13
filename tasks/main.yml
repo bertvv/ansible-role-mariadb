@@ -11,6 +11,11 @@
 
 - name: Install MariaDB
   include_tasks: install.yml
+  when: not ansible_facts['distribution'] == "Ubuntu"
+  tags: mariadb
+
+- include_tasks: ubuntu.yml
+  when: ansible_facts['distribution'] == "Ubuntu"
   tags: mariadb
 
 - name: Configure MariaDB

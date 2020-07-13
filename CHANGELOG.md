@@ -2,9 +2,9 @@
 
 This file contains al notable changes to the mariadb Ansible role.
 
-#3.0.1 - 2020-04-24
+#3.1.1 - 2020-07-13
 
-Added Ubuntu 18 and Centos 8 support.
+- Added Ubuntu 16,18,20 support. (Also the testing releases: 17,19)
 
 
 
