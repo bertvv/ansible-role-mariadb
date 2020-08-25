@@ -22,9 +22,9 @@
     mariadb_databases:
       - name: emptydb
       - name: app1db
-        init_script: ../common/init.sql
+        init_script: ../molecule/common/init.sql
       - name: app2db
-        init_script: ../common/init.sql
+        init_script: ../molecule/common/init.sql
     mariadb_users:
       - name: app1usr
         password: 'Ej{Quiv3'
