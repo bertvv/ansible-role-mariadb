@@ -112,7 +112,7 @@ mariadb_databases:
 
 ### Adding users
 
-Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`, and `append_privs`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html).
+Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`, and `append_privs`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](https://docs.ansible.com/ansible/latest/collections/community/mysql/mysql_user_module.html).
 
 An example:
 
