@@ -56,6 +56,12 @@
   notify: restart mariadb
   tags: mariadb
 
+- name: Ensure Galera config file is removed before starting service
+  file:
+    path: /etc/my.cnf.d/galera.cnf
+    state: absent
+  when: mariadb_galera_master is defined
+
 - name: Ensure service is started
   service:
     name: "{{ mariadb_service }}"

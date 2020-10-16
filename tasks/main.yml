@@ -51,3 +51,8 @@
 - name: Create users
   include_tasks: users.yml
   tags: mariadb
+
+- name: Configure Galera
+  include_tasks: galera.yml
+  when: mariadb_galera_master is defined
+  tags: mariadb

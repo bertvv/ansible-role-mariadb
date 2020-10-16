@@ -5,3 +5,10 @@
   service:
     name: '{{ mariadb_service }}'
     state: restarted
+
+- name: build galera policy
+  command: "{{ item }}"
+  with_items:
+    - "checkmodule -M -m -o /galera.mod /galera.te"
+    - "semodule_package -o /galera.pp -m /galera.mod"
+    - "semodule -i /galera.pp"
