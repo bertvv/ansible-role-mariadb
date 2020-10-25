@@ -1,6 +1,5 @@
 # roles/mariadb/tasks/users.yml
 ---
-
 - name: Remove anonymous users
   mysql_user:
     name: ''

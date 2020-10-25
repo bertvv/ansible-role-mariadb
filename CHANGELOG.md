@@ -2,6 +2,13 @@
 
 This file contains al notable changes to the mariadb Ansible role.
 
+#3.1.1 - 2020-07-13
+
+- Added Ubuntu 16,18,20 support. (Also the testing releases: 17,19)
+
+
+
+
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
 ## 3.1.0 - 2020-07-17

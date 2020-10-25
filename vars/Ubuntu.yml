@@ -1,0 +1,18 @@
+# roles/mariadb/vars/Ubuntu.yml
+---
+mariadb_apt_mirror: 'http://mirror.vpsfree.cz'
+mariadb_apt_repositories: "deb [arch=amd64,arm64,ppc64el] {{ mariadb_apt_mirror }}/mariadb/repo/{{ mariadb_version }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+mariadb_pgp_key: "https://mariadb.org/mariadb_release_signing_key.asc"
+
+mariadb_apt_keyserver: 'keyserver.ubuntu.com'
+mariadb_apt_keyid: '0xF1656F24C74CD1D8'
+mariadb_packages:
+  - mariadb-common
+  - "mariadb-server-{{ mariadb_version }}"
+
+mariadb_socket: /var/run/mysqld/mysqld.sock
+mariadb_config_server: /etc/mysql/conf.d/server.cnf
+mariadb_config_network: /etc/mysql/conf.d/network.cnf
+mariadb_config_custom: /etc/mysql/mariadb.conf.d/custom.cnf
+
+mariadb_service: mariadb.service

@@ -47,6 +47,7 @@
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
   tags: mariadb
+#  debugger: always
 
 - name: Delete init scripts from the server
   file:  # noqa 503

@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bertvv/ansible-role-mariadb.svg?branch=master)](https://travis-ci.org/bertvv/ansible-role-mariadb)
 
-An Ansible role for managing MariaDB in RedHat-based distributions. Specifically, the responsibilities of this role are to:
+An Ansible role for managing MariaDB in RedHat-based distributions and Ubuntu. Specifically, the responsibilities of this role are to:
 
 - Install MariaDB packages from the official MariaDB repositories
 - Remove unsafe defaults:
@@ -217,3 +217,4 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
 - [Tom Stechele](https://github.com/tomstechele)
 - [Vincenzo Castiglia](https://github.com/CastixGitHub)
+- [Balazs Petik](https://github.com/pbalu-code) 
