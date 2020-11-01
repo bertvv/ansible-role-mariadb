@@ -8,14 +8,6 @@ mariadb_packages:
 
 mariadb_mirror: mirror.mva-n.net/mariadb/repo
 
-mariadb_system_user:
-  name: 'mysql'
-  uid: 106
-  gid: 112
-  shell: '/sbin/nologin'
-  home: '/var/lib/mysql'
-  comment: 'MySQL Server'
-
 mariadb_socket: /run/mysqld/mysqld.sock
 
 mariadb_config_network: /etc/mysql/conf.d/network.cnf

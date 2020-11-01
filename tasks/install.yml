@@ -11,8 +11,7 @@
     gid: "{{ mariadb_system_user.gid }}"
     system: true
     state: present
-  when:
-    - ansible_distribution != 'Debian'
+    non_unique: true # necessary on Debian
   tags: mariadb
 
 - name: Create daemon user with specified uid
@@ -25,8 +24,6 @@
     home: "{{ mariadb_system_user.home }}"
     create_home: false
     shell: "{{ mariadb_system_user.shell }}"
-  when:
-    - ansible_distribution != 'Debian'
   tags: mariadb
 
 - name: Install packages
