@@ -11,6 +11,7 @@ An Ansible role for managing MariaDB in RedHat or Debian based distributions. Sp
     - remove test database
 - Create users and databases
 - Manage configuration files `server.cnf` and `custom.cnf`
+- Upload SSL certificates and configure the server to use them
 
 Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
@@ -40,6 +41,9 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_swappiness`           | '0'             | "Swappiness" value (string). System default is 60. A value of 0 means that swapping out processes is avoided.|
 | `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                       |
 | `mariadb_version`              | '10.5'          | The version of MariaDB to be installed. Default is the current stable release.                               |
+| `mariadb_ssl_ca_crt`           | null            | Path to the certificate authority's root certificate                  |
+| `mariadb_ssl_server_crt`       | null            | Path to the server's SSL certificate                                  |
+| `mariadb_ssl_server_key`       | null            | Path to the server's SSL certificate key                                 |
 
 #### Remarks
 

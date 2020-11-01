@@ -17,6 +17,14 @@
   include_tasks: config.yml
   tags: mariadb
 
+- name: Add SSL certificates
+  include_tasks: certificates.yml
+  when:
+    - mariadb_ssl_ca_crt != None
+    - mariadb_ssl_server_crt != None
+    - mariadb_ssl_server_key != None
+  tags: mariadb
+
 - name: Authentication changes in version 10.4 message
   debug:
     msg: >

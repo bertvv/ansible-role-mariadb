@@ -21,4 +21,5 @@ mariadb_socket: /run/mysqld/mysqld.sock
 mariadb_config_network: /etc/mysql/conf.d/network.cnf
 mariadb_config_server: /etc/mysql/conf.d/server.cnf
 mariadb_config_custom: /etc/mysql/conf.d/custom.cnf
+mariadb_config_certificates: /etc/mysql/conf.d/certificates
 mariadb_config_logrotate: /etc/logrotate.d/mysql
