@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bertvv/ansible-role-mariadb.svg?branch=master)](https://travis-ci.org/bertvv/ansible-role-mariadb)
 
-An Ansible role for managing MariaDB in RedHat-based distributions. Specifically, the responsibilities of this role are to:
+An Ansible role for managing MariaDB in RedHat or Debian based distributions. Specifically, the responsibilities of this role are to:
 
 - Install MariaDB packages from the official MariaDB repositories
 - Remove unsafe defaults:
@@ -43,17 +43,20 @@ None of the variables below are required. When not defined by the user, the [def
 
 #### Remarks
 
-(1) Installing MariaDB from the default yum repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
+(1) Installing MariaDB from the official repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
 
 ```yaml
+# for RHEL/Fedora
 mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
+# for Debian
+mariadb_mirror: 'mirror.mva-n.net/mariadb/repo'
 ```
 
 (2) **It is highly recommended to set the database root password!** Leaving the password empty is a serious security risk. The role will issue a warning if the variable was not set.
 
 ### Server configuration
 
-You can specify the configuration in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
+You can specify the configuration in `/etc/my.cnf.d/server.cnf` (in RHEL/Fedora, `/etc/mysql/conf.d/server.cnf` in Debian), specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
 
 For settings that don't get a `= value` in the config file, leave the value empty. All values should be given as strings, so numerical values should be quoted.
 
@@ -76,7 +79,7 @@ slow-query-log-file = mariadb-slow.log
 
 ### Custom configuration
 
-Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf`.
+Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf` (in RHEL/Fedora, `/etc/mysql/conf.d/custom.cnf` in Debian).
 
 Just like `mariadb_server_cnf`, the variable `mariadb_custom_cnf` should be a dictionary. Keys are section names and values are dictionaries with key-value mappings for individual settings.
 
@@ -217,3 +220,4 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
 - [Tom Stechele](https://github.com/tomstechele)
 - [Vincenzo Castiglia](https://github.com/CastixGitHub)
+- [@nxet](https://github.com/nxet)
