@@ -2,9 +2,7 @@
 ---
 
 - name: Add official MariaDB repository
-  template:
-    src: etc_yum.repos.d_mariadb.repo.j2
-    dest: /etc/yum.repos.d/MariaDB.repo
+  include_tasks: add-repo.yml
   tags: mariadb
 
 - name: Create daemon group with specified gid
@@ -13,6 +11,7 @@
     gid: "{{ mariadb_system_user.gid }}"
     system: true
     state: present
+    non_unique: true # necessary on Debian
   tags: mariadb
 
 - name: Create daemon user with specified uid
@@ -30,5 +29,5 @@
 - name: Install packages
   package:
     name: "{{ mariadb_packages }}"
-    state: installed
+    state: "{{ 'latest' if ansible_distribution == 'Debian' else 'installed' }}"
   tags: mariadb

@@ -1,0 +1,39 @@
+# roles/mariadb/tasks/install/add-repo.yml
+---
+
+- name: Add official MariaDB repository (yum)
+  template:
+    src: etc_yum.repos.d_mariadb.repo.j2
+    dest: /etc/yum.repos.d/MariaDB.repo
+    mode: '0644'
+  when: ansible_distribution != 'Debian'
+  tags: mariadb
+
+
+- name: Install gpg to add repokey (apt)
+  package:
+    name: gpg
+    state: latest
+  when: ansible_distribution == 'Debian'
+  tags: mariadb
+
+- name: Add official MariaDB repository key (apt)
+  apt_key:
+    url: https://mariadb.org/mariadb_release_signing_key.asc
+    state: present
+  when: ansible_distribution == 'Debian'
+  tags: mariadb
+
+- name: Add official MariaDB repository (apt)
+  template:
+    src: etc_apt_sources.list.d_mariadb.list.j2
+    dest: /etc/apt/sources.list.d/mariadb.list
+    mode: '0644'
+  when: ansible_distribution == 'Debian'
+  tags: mariadb
+
+- name: Update packages cache with new repo (apt)
+  apt:
+    update_cache: true
+  when: ansible_distribution == 'Debian'
+  tags: mariadb

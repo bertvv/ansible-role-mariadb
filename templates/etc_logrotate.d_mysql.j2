@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 
-# This logname can be set in /etc/my.cnf
+# This logname can be set in /etc/{{ 'mysql/' if ansible_distribution == 'Debian' else '' }}my.cnf
 # by setting the variable "log-error"
 # in the [mysqld] section as follows:
 #

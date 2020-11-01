@@ -5,6 +5,9 @@
   template:
     src: etc_my.cnf.d_server.cnf.j2
     dest: "{{ mariadb_config_server }}"
+    mode: '0640'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
   notify: restart mariadb
   tags: mariadb
 
@@ -12,6 +15,9 @@
   template:
     src: etc_my.cnf.d_network.cnf.j2
     dest: "{{ mariadb_config_network }}"
+    mode: '0640'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
   notify: restart mariadb
   tags: mariadb
 
@@ -19,6 +25,9 @@
   template:
     src: etc_my.cnf.d_custom.cnf.j2
     dest: "{{ mariadb_config_custom }}"
+    mode: '0640'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
   when: mariadb_custom_cnf|length != 0
   notify: restart mariadb
   tags: mariadb
@@ -45,13 +54,14 @@
     path: /var/log/mariadb
     owner: mysql
     group: mysql
-    mode: 0755
+    mode: '0755'
   when: mariadb_logrotate.configure|bool
 
 - name: Configure logrotate
   template:
     src: etc_logrotate.d_mysql.j2
     dest: /etc/logrotate.d/mysql
+    mode: '0644'
   when: mariadb_logrotate.configure|bool
   notify: restart mariadb
   tags: mariadb

@@ -7,7 +7,7 @@ mariadb_root_password: ''
 mariadb_auth_unix_plugin: false
 
 mariadb_mirror: yum.mariadb.org
-mariadb_version: '10.4'
+mariadb_version: '10.5'
 
 mariadb_configure_swappiness: true
 mariadb_swappiness: "0"
@@ -35,3 +35,8 @@ mariadb_server_cnf: {}
 
 # Custom configuration
 mariadb_custom_cnf: {}
+
+# SSL certificates
+mariadb_ssl_ca_crt: null
+mariadb_ssl_server_crt: null
+mariadb_ssl_server_key: null
