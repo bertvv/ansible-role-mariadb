@@ -5,6 +5,7 @@
   template:
     src: etc_yum.repos.d_mariadb.repo.j2
     dest: /etc/yum.repos.d/MariaDB.repo
+    mode: '0644'
   when: ansible_distribution != 'Debian'
   tags: mariadb
 
@@ -27,6 +28,7 @@
   template:
     src: etc_apt_sources.list.d_mariadb.list.j2
     dest: /etc/apt/sources.list.d/mariadb.list
+    mode: '0644'
   when: ansible_distribution == 'Debian'
   tags: mariadb
 
