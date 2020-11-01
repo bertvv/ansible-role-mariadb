@@ -36,9 +36,9 @@
     group: "{{ mariadb_system_user.gid }}"
   tags: mariadb
 
-- name: Add SSL configuration to server.cnf
+- name: Add SSL configuration
   blockinfile:
-    path: "{{ mariadb_config_server }}"
+    path: "{{ mariadb_config_directory }}/90-ssl.cnf"
     content: |
       [server]
       ssl_ca = {{ mariadb_config_certificates }}/ca.crt

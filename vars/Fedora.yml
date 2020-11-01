@@ -1,4 +1,4 @@
-# roles/mariadb/vars/RedHat.yml
+# roles/mariadb/vars/Fedora.yml
 ---
 
 mariadb_packages:
@@ -8,6 +8,7 @@ mariadb_packages:
 
 mariadb_socket: /var/lib/mysql/mysql.sock
 
+mariadb_config_directory: /etc/my.cnf.d
 mariadb_config_network: /etc/my.cnf.d/network.cnf
 mariadb_config_server: /etc/my.cnf.d/server.cnf
 mariadb_config_custom: /etc/my.cnf.d/custom.cnf
