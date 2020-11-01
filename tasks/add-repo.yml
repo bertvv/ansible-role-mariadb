@@ -29,3 +29,9 @@
     dest: /etc/apt/sources.list.d/mariadb.list
   when: ansible_distribution == 'Debian'
   tags: mariadb
+
+- name: Update packages cache with new repo (apt)
+  apt:
+    update_cache: true
+  when: ansible_distribution == 'Debian'
+  tags: mariadb
