@@ -39,7 +39,7 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                       |
 | `mariadb_swappiness`           | '0'             | "Swappiness" value (string). System default is 60. A value of 0 means that swapping out processes is avoided.|
 | `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                       |
-| `mariadb_version`              | '10.4'          | The version of MariaDB to be installed. Default is the current stable release.                               |
+| `mariadb_version`              | '10.5'          | The version of MariaDB to be installed. Default is the current stable release.                               |
 
 #### Remarks
 
