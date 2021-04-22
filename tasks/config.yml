@@ -56,6 +56,9 @@
   notify: restart mariadb
   tags: mariadb
 
+- include_tasks: datadir.yml
+  when: (mysqld_datadir is not none) and (mysqld_datadir is defined)
+
 - name: Ensure service is started
   service:
     name: "{{ mariadb_service }}"
