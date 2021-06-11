@@ -70,6 +70,7 @@ This would result in the following `server.cnf`:
 [mariadb]
 slow-query-log
 slow-query-log-file = mariadb-slow.log
+long-query-time = 5.0
 ```
 
 ### Custom configuration
