@@ -1,5 +1,5 @@
 [MariaDB]
-baseurl = "http://{{ mariadb_mirror }}/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel')|regex_replace('oraclelinux', 'centos') }}{{ ansible_distribution_major_version }}-amd64"
+baseurl = "http://{{ mariadb_mirror }}/{{ mariadb_version }}/{{ ansible_distribution|lower|regex_replace('redhat', 'rhel')|regex_replace('oraclelinux', 'centos')|regex_replace('almalinux', 'centos') }}{{ ansible_distribution_major_version }}-amd64"
 enabled = 1
 gpgcheck = 1
 gpgkey = https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
