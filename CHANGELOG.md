@@ -4,6 +4,14 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+
+## 3.1.1 - 2021-08-30
+
+### Changed
+
+- Fix link to Ansible docs for mysql_user module
+- Add support for AlmaLinux
+
 ## 3.1.0 - 2020-07-17
 
 ### Added
