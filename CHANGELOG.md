@@ -4,6 +4,11 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 3.1.2 - 2021-08-30
+
+### Changed
+
+- Fix repository URL in Yum/DNF configuration, use https instead of http
 
 ## 3.1.1 - 2021-08-30
 
