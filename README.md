@@ -1,8 +1,6 @@
 # Ansible role `mariadb`
 
-[![Build Status](https://travis-ci.org/bertvv/ansible-role-mariadb.svg?branch=master)](https://travis-ci.org/bertvv/ansible-role-mariadb)
-
-An Ansible role for managing MariaDB in RedHat or Debian based distributions. Specifically, the responsibilities of this role are to:
+An Ansible role for managing MariaDB in RedHat-based distributions. Specifically, the responsibilities of this role are to:
 
 - Install MariaDB packages from the official MariaDB repositories
 - Remove unsafe defaults:
@@ -79,6 +77,7 @@ This would result in the following `server.cnf`:
 [mariadb]
 slow-query-log
 slow-query-log-file = mariadb-slow.log
+long-query-time = 5.0
 ```
 
 ### Custom configuration
