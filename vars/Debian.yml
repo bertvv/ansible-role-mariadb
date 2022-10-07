@@ -1,0 +1,18 @@
+# roles/mariadb/vars/Debian.yml
+---
+
+mariadb_packages:
+  - mariadb-common
+  - mariadb-server
+  - python3-pymysql
+
+mariadb_mirror: mirror.mva-n.net/mariadb/repo
+
+mariadb_socket: /run/mysqld/mysqld.sock
+
+mariadb_config_directory: /etc/mysql/mariadb.conf.d
+mariadb_config_network: /etc/mysql/mariadb.conf.d/90-network.cnf
+mariadb_config_server: /etc/mysql/mariadb.conf.d/90-server.cnf
+mariadb_config_custom: /etc/mysql/mariadb.conf.d/99-custom.cnf
+mariadb_config_certificates: /etc/mysql/certificates
+mariadb_config_logrotate: /etc/logrotate.d/mysql

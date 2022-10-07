@@ -12,6 +12,9 @@ galaxy_info:
     - name: Fedora
       versions:
         - 31
+    - name: Debian
+      versions:
+        - 10
   galaxy_tags:
     - database
     - sql

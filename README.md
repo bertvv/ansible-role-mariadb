@@ -1,7 +1,5 @@
 # Ansible role `mariadb`
 
-[![Build Status](https://travis-ci.org/bertvv/ansible-role-mariadb.svg?branch=master)](https://travis-ci.org/bertvv/ansible-role-mariadb)
-
 An Ansible role for managing MariaDB in RedHat-based distributions. Specifically, the responsibilities of this role are to:
 
 - Install MariaDB packages from the official MariaDB repositories
@@ -11,6 +9,7 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
     - remove test database
 - Create users and databases
 - Manage configuration files `server.cnf` and `custom.cnf`
+- Upload SSL certificates and configure the server to use them
 
 Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
@@ -26,38 +25,45 @@ None of the variables below are required. When not defined by the user, the [def
 
 ### Basic configuration
 
-| Variable                       | Default          | Comments                                                                                                                   |
-| :---                           | :---             | :---                                                                                                                       |
-| `mariadb_bind_address`         | '127.0.0.1'      | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces.                |
-| `mariadb_configure_swappiness` | true             | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                                          |
-| `mariadb_custom_cnf`           | {}               | Dictionary with custom configuration.                                                                                      |
-| `mariadb_databases`            | []               | List of dicts specifying the databases to be added. See below for details.                                                 |
+
+| Variable                       | Default         | Comments                                                                                                     |
+| :---                           | :---            | :---                                                                                                         |
+| `mariadb_bind_address`         | '127.0.0.1'     | Set this to the IP address of the network interface to listen on, or '0.0.0.0' to listen on all interfaces.  |
+| `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                            |
+| `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                        |
+| `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                   |
 | `mariadb_galera_cluster_name`  | 'Galera cluster' | The name of the Galera cluster                                                                                             |
 | `mariadb_galera_nodes`         | []               | List of dicts specifying the IPv4 addresses of the cluster nodes. See below for details                                    |
 | `mariadb_galera_master`        | false            | If defined, Galera will be used. When `true`, this role will use that node to bootstrap the cluster. See below for details |
 | `mariadb_galera_node_address`  | ''               | Set this to the IPv4 address of the network interface of the corresponding host that is used in `mariadb_galera_nodes`     |
-| `mariadb_mirror`               | yum.mariadb.org  | Download mirror for the .rpm package (1)                                                                                   |
-| `mariadb_port`                 | 3306             | The port number used to listen to client requests                                                                          |
-| `mariadb_root_password`        | ''               | The MariaDB root password. (2)                                                                                             |
-| `mariadb_server_cnf`           | {}               | Dictionary with server configuration.                                                                                      |
-| `mariadb_service`              | mariadb          | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                                     |
-| `mariadb_swappiness`           | 0                | "Swappiness" value. System default is 60. A value of 0 means that swapping out processes is avoided.                       |
-| `mariadb_users`                | []               | List of dicts specifying the users to be added. See below for details.                                                     |
-| `mariadb_version`              | '10.3'           | The version of MariaDB to be installed. Default is the current stable release.                                             |
+| `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                     |
+| `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                            |
+| `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                               |
+| `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                        |
+| `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                       |
+| `mariadb_swappiness`           | '0'             | "Swappiness" value (string). System default is 60. A value of 0 means that swapping out processes is avoided.|
+| `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                       |
+| `mariadb_version`              | '10.5'          | The version of MariaDB to be installed. Default is the current stable release.                               |
+| `mariadb_ssl_ca_crt`           | null            | Path to the certificate authority's root certificate                  |
+| `mariadb_ssl_server_crt`       | null            | Path to the server's SSL certificate                                  |
+| `mariadb_ssl_server_key`       | null            | Path to the server's SSL certificate key                                 |
 
 #### Remarks
 
-(1) Installing MariaDB from the default yum repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
+(1) Installing MariaDB from the official repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
 
 ```yaml
+# for RHEL/Fedora
 mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
+# for Debian
+mariadb_mirror: 'mirror.mva-n.net/mariadb/repo'
 ```
 
 (2) **It is highly recommended to set the database root password!** Leaving the password empty is a serious security risk. The role will issue a warning if the variable was not set.
 
 ### Server configuration
 
-You can specify the configuration in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
+You can specify the configuration in `/etc/my.cnf.d/server.cnf` (in RHEL/Fedora, `/etc/mysql/conf.d/server.cnf` in Debian), specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
 
 For settings that don't get a `= value` in the config file, leave the value empty. All values should be given as strings, so numerical values should be quoted.
 
@@ -76,11 +82,12 @@ This would result in the following `server.cnf`:
 [mariadb]
 slow-query-log
 slow-query-log-file = mariadb-slow.log
+long-query-time = 5.0
 ```
 
 ### Custom configuration
 
-Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf`.
+Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf` (in RHEL/Fedora, `/etc/mysql/conf.d/custom.cnf` in Debian).
 
 Just like `mariadb_server_cnf`, the variable `mariadb_custom_cnf` should be a dictionary. Keys are section names and values are dictionaries with key-value mappings for individual settings.
 
@@ -116,7 +123,7 @@ mariadb_databases:
 
 ### Adding users
 
-Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`, and `append_privs`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](http://docs.ansible.com/mysql_user_module.html).
+Users are defined with a dict containing fields `name:`, `password:`, `priv:`, and, optionally, `host:`, and `append_privs`. The password is in plain text and `priv:` specifies the privileges for this user as described in the [Ansible documentation](https://docs.ansible.com/ansible/latest/collections/community/mysql/mysql_user_module.html).
 
 An example:
 
@@ -262,3 +269,4 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
 - [Tom Stechele](https://github.com/tomstechele)
 - [Vincenzo Castiglia](https://github.com/CastixGitHub)
+- [@nxet](https://github.com/nxet)

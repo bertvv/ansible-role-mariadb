@@ -1,0 +1,53 @@
+---
+
+- name: Create destination directory
+  file:
+    path: "{{ mariadb_config_certificates }}"
+    state: directory
+    mode: '750'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
+  tags: mariadb
+
+- name: Copy root certificate
+  copy:
+    content: "{{ lookup('file', mariadb_ssl_ca_crt) }}"
+    dest: "{{ mariadb_config_certificates }}/ca.crt"
+    mode: '0644'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
+  tags: mariadb
+
+- name: Copy server's SSL certificate
+  copy:
+    content: "{{ lookup('file', mariadb_ssl_server_crt) }}"
+    dest: "{{ mariadb_config_certificates }}/server.crt"
+    mode: '0644'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
+  tags: mariadb
+
+- name: Copy server's SSL certificate key
+  copy:
+    content: "{{ lookup('file', mariadb_ssl_server_key) }}"
+    dest: "{{ mariadb_config_certificates }}/server.key"
+    mode: '0600'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
+  tags: mariadb
+
+- name: Add SSL configuration
+  blockinfile:
+    path: "{{ mariadb_config_directory }}/90-ssl.cnf"
+    content: |
+      [server]
+      ssl_ca = {{ mariadb_config_certificates }}/ca.crt
+      ssl_cert = {{ mariadb_config_certificates }}/server.crt
+      ssl_key = {{ mariadb_config_certificates }}/server.key
+    marker: "# server-wide SSL configuration {mark} Ansible managed"
+    create: yes
+    mode: '640'
+    owner: "{{ mariadb_system_user.uid }}"
+    group: "{{ mariadb_system_user.gid }}"
+  notify: restart mariadb
+  tags: mariadb

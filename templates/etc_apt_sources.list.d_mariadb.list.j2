@@ -1,0 +1,4 @@
+# MariaDB repository list - Ansible managed
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64] http://{{ mariadb_mirror }}/{{ mariadb_version }}/debian {{ ansible_distribution_release }} main
+deb-src http://{{ mariadb_mirror }}/{{ mariadb_version }}/debian {{ ansible_distribution_release }} main
