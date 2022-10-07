@@ -35,3 +35,8 @@ mariadb_server_cnf: {}
 
 # Custom configuration
 mariadb_custom_cnf: {}
+
+# SSL certificates
+mariadb_ssl_ca_crt: null
+mariadb_ssl_server_crt: null
+mariadb_ssl_server_key: null

@@ -9,6 +9,7 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
     - remove test database
 - Create users and databases
 - Manage configuration files `server.cnf` and `custom.cnf`
+- Upload SSL certificates and configure the server to use them
 
 Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
@@ -37,21 +38,27 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                       |
 | `mariadb_swappiness`           | '0'             | "Swappiness" value (string). System default is 60. A value of 0 means that swapping out processes is avoided.|
 | `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                       |
-| `mariadb_version`              | '10.4'          | The version of MariaDB to be installed. Default is the current stable release.                               |
+| `mariadb_version`              | '10.5'          | The version of MariaDB to be installed. Default is the current stable release.                               |
+| `mariadb_ssl_ca_crt`           | null            | Path to the certificate authority's root certificate                  |
+| `mariadb_ssl_server_crt`       | null            | Path to the server's SSL certificate                                  |
+| `mariadb_ssl_server_key`       | null            | Path to the server's SSL certificate key                                 |
 
 #### Remarks
 
-(1) Installing MariaDB from the default yum repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
+(1) Installing MariaDB from the official repository can be very slow (some users reported more than 10 minutes). The variable `mariadb_mirror` allows you to specify a custom download mirror closer to your geographical location that may speed up the installation process. E.g.:
 
 ```yaml
+# for RHEL/Fedora
 mariadb_mirror: 'mariadb.mirror.nucleus.be/yum'
+# for Debian
+mariadb_mirror: 'mirror.mva-n.net/mariadb/repo'
 ```
 
 (2) **It is highly recommended to set the database root password!** Leaving the password empty is a serious security risk. The role will issue a warning if the variable was not set.
 
 ### Server configuration
 
-You can specify the configuration in `/etc/my.cnf.d/server.cnf`, specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
+You can specify the configuration in `/etc/my.cnf.d/server.cnf` (in RHEL/Fedora, `/etc/mysql/conf.d/server.cnf` in Debian), specifically in the `[mariadb]` section, by providing a dictionary of keys/values in the variable `mariadb_server_cnf`. Please refer to the [MariaDB Server System Variables documentation](https://mariadb.com/kb/en/mariadb/server-system-variables/) for details on the possible settings.
 
 For settings that don't get a `= value` in the config file, leave the value empty. All values should be given as strings, so numerical values should be quoted.
 
@@ -75,7 +82,7 @@ long-query-time = 5.0
 
 ### Custom configuration
 
-Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf`.
+Settings for other sections than `[mariadb]`, can be set with `mariadb_custom_cnf`. These settings will be written to `/etc/mysql/my.cnf.d/custom.cnf` (in RHEL/Fedora, `/etc/mysql/conf.d/custom.cnf` in Debian).
 
 Just like `mariadb_server_cnf`, the variable `mariadb_custom_cnf` should be a dictionary. Keys are section names and values are dictionaries with key-value mappings for individual settings.
 
@@ -216,3 +223,4 @@ Pull requests are also very welcome. Please create a topic branch for your propo
 - [Thomas Eylenbosch](https://github.com/EylenboschThomas)
 - [Tom Stechele](https://github.com/tomstechele)
 - [Vincenzo Castiglia](https://github.com/CastixGitHub)
+- [@nxet](https://github.com/nxet)
