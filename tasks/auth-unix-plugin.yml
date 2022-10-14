@@ -3,7 +3,7 @@
 # Shell is unfortunately necessary because the mysql_user module doesn't yet
 # support plugin changes.
 - name: Enable plugin unix_socket
-  shell: >
+  ansible.builtin.shell: >
     mysql -S {{ mariadb_socket }} -u root -e
     "INSTALL PLUGIN unix_socket SONAME 'auth_socket'"
     ||
@@ -18,7 +18,7 @@
   tags: mariadb
 
 - name: Check for unix_socket in plugin column
-  shell: >
+  ansible.builtin.shell: >
     mysql -N -s -S {{ mariadb_socket }} -u root -e
     "SELECT plugin from mysql.user WHERE user = 'root'"
     ||
@@ -30,7 +30,7 @@
   tags: mariadb
 
 - name: Update root user to use unix_socket
-  shell: >
+  ansible.builtin.shell: >
     mysql -S {{ mariadb_socket }} -u root -e
     "UPDATE mysql.user SET plugin = 'unix_socket' WHERE user = 'root';
     FLUSH PRIVILEGES;"

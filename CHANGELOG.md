@@ -8,6 +8,7 @@ This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning 
 
 ### Changed
 
+- Use FQCNs for all tasks
 - Fix support for MariaDB mirror URL config option `mariadb_mirror`
 
 ## 3.1.3 - 2022-10-14

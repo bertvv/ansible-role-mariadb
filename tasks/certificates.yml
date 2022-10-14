@@ -1,7 +1,7 @@
 ---
 
 - name: Create destination directory
-  file:
+  ansible.builtin.file:
     path: "{{ mariadb_config_certificates }}"
     state: directory
     mode: '750'
@@ -10,7 +10,7 @@
   tags: mariadb
 
 - name: Copy root certificate
-  copy:
+  ansible.builtin.copy:
     content: "{{ lookup('file', mariadb_ssl_ca_crt) }}"
     dest: "{{ mariadb_config_certificates }}/ca.crt"
     mode: '0644'
@@ -19,7 +19,7 @@
   tags: mariadb
 
 - name: Copy server's SSL certificate
-  copy:
+  ansible.builtin.copy:
     content: "{{ lookup('file', mariadb_ssl_server_crt) }}"
     dest: "{{ mariadb_config_certificates }}/server.crt"
     mode: '0644'
@@ -28,7 +28,7 @@
   tags: mariadb
 
 - name: Copy server's SSL certificate key
-  copy:
+  ansible.builtin.copy:
     content: "{{ lookup('file', mariadb_ssl_server_key) }}"
     dest: "{{ mariadb_config_certificates }}/server.key"
     mode: '0600'
@@ -37,7 +37,7 @@
   tags: mariadb
 
 - name: Add SSL configuration
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "{{ mariadb_config_directory }}/90-ssl.cnf"
     content: |
       [server]

@@ -2,7 +2,7 @@
 ---
 
 - name: Remove anonymous users
-  mysql_user:
+  community.mysql.mysql_user:
     name: ''
     host_all: true
     login_user: root
@@ -13,7 +13,7 @@
   tags: mariadb
 
 - name: Create the users
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     host: "{{ item.host|default('localhost') }}"
