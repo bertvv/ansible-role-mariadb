@@ -4,6 +4,14 @@ This file contains al notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
+## 3.1.3 - 2022-10-14
+
+### Changed
+
+- Add support for Debian (#45, credit: @nxet)
+- Add support for EL 9 (#59, credit: @MartenBE)
+- Fix baseurl for package repository (fixes #53)
+
 ## 3.1.2 - 2021-08-30
 
 ### Changed

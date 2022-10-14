@@ -144,9 +144,7 @@ See the [test playbook](molecule/default/converge.yml)
 
 ## Testing
 
-This role is tested using [Ansible Molecule](https://molecule.readthedocs.io/). Tests are launched automatically on [Travis CI](https://travis-ci.org/bertvv/ansible-role-mariadb) after each commit and PR.
-
-This Molecule configuration will:
+This role can be tested using [Ansible Molecule](https://molecule.readthedocs.io/). The Molecule configuration will:
 
 - Run Yamllint and Ansible Lint
 - Create a Docker container named `db`
@@ -204,10 +202,6 @@ This will create VirtualBox VMs for the supported platforms, based on base boxes
 2 clause BSD
 
 ## Contributors
-
-Issues, feature requests, ideas, suggestions, etc. are appreciated and can be posted in the Issues section.
-
-Pull requests are also very welcome. Please create a topic branch for your proposed changes. If you don’t, this will create conflicts in your fork when you synchronise changes after the merge. Don’t hesitate to add yourself to the contributor list below in your PR!
 
 - [Adail Horst](https://github.com/SpawW)
 - [Barry Britt](https://github.com/raznikk)

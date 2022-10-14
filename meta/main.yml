@@ -3,12 +3,13 @@ galaxy_info:
   author: Bert Van Vreckem
   description: Manage MariaDB on a RedHat based Linux distribution.
   license: BSD
-  min_ansible_version: 2.9
+  min_ansible_version: 2.13
   platforms:
     - name: EL
       versions:
         - 7
         - 8
+        - 9
     - name: Fedora
       versions:
         - 31
