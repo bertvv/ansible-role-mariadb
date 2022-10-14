@@ -1,7 +1,7 @@
 # roles/mariadb/tasks/main.yml
 ---
 - name: Include distribution dependent variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
@@ -12,15 +12,15 @@
   tags: mariadb
 
 - name: Install MariaDB
-  include_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
   tags: mariadb
 
 - name: Configure MariaDB
-  include_tasks: config.yml
+  ansible.builtin.include_tasks: config.yml
   tags: mariadb
 
 - name: Add SSL certificates
-  include_tasks: certificates.yml
+  ansible.builtin.include_tasks: certificates.yml
   when:
     - mariadb_ssl_ca_crt != None
     - mariadb_ssl_server_crt != None
@@ -28,7 +28,7 @@
   tags: mariadb
 
 - name: Authentication changes in version 10.4 message
-  debug:
+  ansible.builtin.debug:
     msg: >
       Authentication has changed in version 10.4. Both the root user and
       the user that owns the data directory (mysql by default) now utilize
@@ -41,23 +41,23 @@
   tags: mariadb
 
 - name: Set the database root password
-  include_tasks: root-password.yml
+  ansible.builtin.include_tasks: root-password.yml
   when:
     - not mariadb_auth_unix_plugin
     - mariadb_version is version('10.4', '<')
   tags: mariadb
 
 - name: Enable plugin unix_socket
-  include_tasks: auth-unix-plugin.yml
+  ansible.builtin.include_tasks: auth-unix-plugin.yml
   when:
     - mariadb_auth_unix_plugin
     - mariadb_version is version('10.4', '<')
   tags: mariadb
 
 - name: Create and initialize databases
-  include_tasks: databases.yml
+  ansible.builtin.include_tasks: databases.yml
   tags: mariadb
 
 - name: Create users
-  include_tasks: users.yml
+  ansible.builtin.include_tasks: users.yml
   tags: mariadb

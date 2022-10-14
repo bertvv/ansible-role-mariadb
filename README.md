@@ -17,7 +17,7 @@ Do you use/like this role? Please consider giving it a star. If you [rate this r
 
 ## Requirements
 
-No specific requirements
+The collections `community.mysql` and `community.posix` must be installed.
 
 ## Role Variables
 
