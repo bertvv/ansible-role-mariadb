@@ -31,7 +31,7 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                            |
 | `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                        |
 | `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                   |
-| `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                     |
+| `mariadb_mirror`               | null            | Download mirror for the rpm/apt package (1)                                                                     |
 | `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                            |
 | `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                               |
 | `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                        |
