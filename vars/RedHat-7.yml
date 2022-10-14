@@ -1,10 +1,11 @@
-# roles/mariadb/vars/RedHat-8.yml
+# roles/mariadb/vars/RedHat-7.yml
+# Platform-specific variables for EL7
 ---
 
 mariadb_packages:
   - MariaDB-common
   - MariaDB-server
-  - python3-PyMySQL
+  - MySQL-python
 
 mariadb_socket: /var/lib/mysql/mysql.sock
 
@@ -13,3 +14,4 @@ mariadb_config_network: /etc/my.cnf.d/network.cnf
 mariadb_config_server: /etc/my.cnf.d/server.cnf
 mariadb_config_custom: /etc/my.cnf.d/custom.cnf
 mariadb_config_certificates: /etc/my.cnf.d/certificates
+mariadb_config_logrotate: /etc/logrotate.d/mysql
