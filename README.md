@@ -31,14 +31,14 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_configure_swappiness` | true            | When `true`, this role will set the "swappiness" value (see `mariadb_swappiness`.                            |
 | `mariadb_custom_cnf`           | {}              | Dictionary with custom configuration.                                                                        |
 | `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                   |
-| `mariadb_mirror`               | yum.mariadb.org | Download mirror for the .rpm package (1)                                                                     |
+| `mariadb_mirror`               | null            | Download mirror for the rpm/apt package (1)                                                                     |
 | `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                            |
 | `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                               |
 | `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                        |
 | `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                       |
 | `mariadb_swappiness`           | '0'             | "Swappiness" value (string). System default is 60. A value of 0 means that swapping out processes is avoided.|
 | `mariadb_users`                | []              | List of dicts specifying the users to be added. See below for details.                                       |
-| `mariadb_version`              | '10.5'          | The version of MariaDB to be installed. Default is the current stable release.                               |
+| `mariadb_version`              | '10.6'          | The version of MariaDB to be installed. Default is the current stable release.                               |
 | `mariadb_ssl_ca_crt`           | null            | Path to the certificate authority's root certificate                  |
 | `mariadb_ssl_server_crt`       | null            | Path to the server's SSL certificate                                  |
 | `mariadb_ssl_server_key`       | null            | Path to the server's SSL certificate key                                 |
