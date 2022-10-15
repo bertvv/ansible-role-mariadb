@@ -29,6 +29,7 @@ mariadb_logrotate:
 
 mariadb_service: mariadb
 mariadb_bind_address: '127.0.0.1'
+mariadb_port: '3306'
 
 # Server configuration
 mariadb_server_cnf: {}

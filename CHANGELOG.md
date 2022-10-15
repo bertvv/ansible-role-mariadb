@@ -1,6 +1,6 @@
 # Change log
 
-This file contains al notable changes to the mariadb Ansible role.
+This file contains all notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
 
