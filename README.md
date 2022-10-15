@@ -10,6 +10,7 @@ An Ansible role for managing MariaDB in RedHat-based distributions. Specifically
 - Create users and databases
 - Manage configuration files `server.cnf` and `custom.cnf`
 - Upload SSL certificates and configure the server to use them
+- Optionally open firewall ports
 
 Refer to the [change log](CHANGELOG.md) for notable changes in each release.
 
@@ -33,6 +34,8 @@ None of the variables below are required. When not defined by the user, the [def
 | `mariadb_databases`            | []              | List of dicts specifying the databases to be added. See below for details.                                   |
 | `mariadb_mirror`               | null            | Download mirror for the rpm/apt package (1)                                                                     |
 | `mariadb_port`                 | 3306            | The port number used to listen to client requests                                                            |
+| `mariadb_firewall_backend`     | null            | Firewall backend used to open ports, the default `null` skips the tasks.                                                            |
+| `mariadb_allowed_ips`          | {'world': 'any'} | Dict of CIDRs to allow incoming connections from. See examples below. |
 | `mariadb_root_password`        | ''              | The MariaDB root password. (2)                                                                               |
 | `mariadb_server_cnf`           | {}              | Dictionary with server configuration.                                                                        |
 | `mariadb_service`              | mariadb         | Name of the service (should e.g. be 'mysql' on CentOS for MariaDB 5.5)                                       |
@@ -134,9 +137,33 @@ mariadb_users:
     host: '192.168.56.%'
 ```
 
+### Opening firewall port
+
+The role provides tasks to automatically open the firewall port (as configured with `mariadb_port`) used by MariaDB, either with `ufw` or `iptables`. Feel free to [open an Issue](https://github.com/bertvv/ansible-role-mariadb/issues/new)/PR to add support for more firewall backends.  
+To enable these tasks the `mariadb_firewall_backend` option must be set explicitly to either `ufw` or `iptables`, since the default `null` will simply ignore the tasks.  
+The config option `mariadb_allowed_ips` is a dictionary of IPs/CIDRs allowed to connect to the daemon.
+> NB: the firewall must be already installed on the target host.  
+The role *will fail trying* instead of checking if the package is available.
+
+An example:
+
+```Yaml
+mariadb_firewall_backend: ufw
+mariadb_allowed_ips:
+  admins: 10.0.10.0/24
+  workers: 10.0.11.0/24
+  proxy: 192.168.1.100
+```
+
+This will create three separate rules which, depending on the backend used, will be along the lines of:
+- `allow incoming from 10.0.10.0/24 to 0.0.0.0 port 3306 proto tcp comment 'mariadb-admins'`
+- `allow incoming from 10.0.11.0/24 to 0.0.0.0 port 3306 proto tcp comment 'mariadb-workers'`
+- `allow incoming from 192.168.1.100 to 0.0.0.0 port 3306 proto tcp comment 'mariadb-proxy'`
+
 ## Dependencies
 
-The collections `community.mysql` and `community.posix` must be installed.
+The collections `community.mysql` and `community.posix` must be installed.  
+When using the `ufw` firewall tasks, the `community.general` collection must also be present.
 
 ## Example Playbook
 

@@ -6,6 +6,10 @@ This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning 
 
 ## 3.1.4
 
+### Added
+
+- Firewall helpers to open ports on target host using either `ufw` or `iptables` (credit: @nxet)
+
 ### Changed
 
 - Use FQCNs for all tasks

@@ -61,3 +61,8 @@
 - name: Create users
   ansible.builtin.include_tasks: users.yml
   tags: mariadb
+
+- name: Open firewall port
+  when: mariadb_firewall_backend != None
+  ansible.builtin.include_tasks: firewall.yml
+  tags: mariadb
