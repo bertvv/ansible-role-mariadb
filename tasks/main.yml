@@ -13,11 +13,11 @@
 
 - name: Import tasks to Install MariaDB
   ansible.builtin.import_tasks: install.yml
-  tags: mariadb
+  tags: mariadb, mariadb-install
 
 - name: Import tasks to Configure MariaDB
   ansible.builtin.import_tasks: config.yml
-  tags: mariadb
+  tags: mariadb, mariadb-config
 
 - name: Import tasks to Add SSL certificates
   ansible.builtin.import_tasks: certificates.yml
@@ -25,7 +25,7 @@
     - mariadb_ssl_ca_crt != None
     - mariadb_ssl_server_crt != None
     - mariadb_ssl_server_key != None
-  tags: mariadb
+  tags: mariadb, mariadb-config, mariadb-ssl
 
 - name: Authentication changes in version 10.4 message
   ansible.builtin.debug:
@@ -45,24 +45,24 @@
   when:
     - not mariadb_auth_unix_plugin
     - mariadb_version is version('10.4', '<')
-  tags: mariadb
+  tags: mariadb, mariadb-config, mariadb-rootpwd
 
 - name: Import tasks to Enable plugin unix_socket
   ansible.builtin.import_tasks: auth-unix-plugin.yml
   when:
     - mariadb_auth_unix_plugin
     - mariadb_version is version('10.4', '<')
-  tags: mariadb
+  tags: mariadb, mariadb-config, mariadb-authunix
 
 - name: Import tasks to Create and initialize databases
   ansible.builtin.import_tasks: databases.yml
-  tags: mariadb
+  tags: mariadb, mariadb-init, mariadb-databases
 
 - name: Import tasks to Create users
   ansible.builtin.import_tasks: users.yml
-  tags: mariadb
+  tags: mariadb, mariadb-init, mariadb-users
 
 - name: Import tasks to Open firewall port
   when: mariadb_firewall_backend != None
   ansible.builtin.import_tasks: firewall.yml
-  tags: mariadb
+  tags: mariadb, mariadb-firewall

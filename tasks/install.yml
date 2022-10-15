@@ -3,7 +3,7 @@
 
 - name: Import tasks to add official MariaDB repository
   ansible.builtin.import_tasks: add-repo.yml
-  tags: mariadb
+  tags: mariadb-repo
 
 - name: Create daemon group with specified gid
   ansible.builtin.group:
@@ -12,7 +12,7 @@
     system: true
     state: present
     non_unique: true # necessary on Debian
-  tags: mariadb
+  tags: mariadb-install-user
 
 - name: Create daemon user with specified uid
   ansible.builtin.user:
@@ -24,10 +24,10 @@
     home: "{{ mariadb_system_user.home }}"
     create_home: false
     shell: "{{ mariadb_system_user.shell }}"
-  tags: mariadb
+  tags: mariadb-install-user
 
 - name: Install packages
   ansible.builtin.package:
     name: "{{ mariadb_packages }}"
     state: "{{ 'latest' if ansible_distribution == 'Debian' else 'installed' }}"
-  tags: mariadb
+  tags: mariadb-install-pkg

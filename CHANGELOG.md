@@ -12,6 +12,7 @@ This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning 
 
 ### Changed
 
+- Add detailed tags to all tasks
 - Use static `import_tasks` instead of dynamic `include_` to propagate tags to all children tasks
 - Use FQCNs for all tasks
 - Fix support for MariaDB mirror URL config option `mariadb_mirror`

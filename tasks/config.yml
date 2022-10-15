@@ -9,7 +9,7 @@
     owner: "{{ mariadb_system_user.uid }}"
     group: "{{ mariadb_system_user.gid }}"
   notify: restart mariadb
-  tags: mariadb
+  tags: mariadb-config-server
 
 - name: Install network config file
   ansible.builtin.template:
@@ -19,7 +19,7 @@
     owner: "{{ mariadb_system_user.uid }}"
     group: "{{ mariadb_system_user.gid }}"
   notify: restart mariadb
-  tags: mariadb
+  tags: mariadb-config-network
 
 - name: Install custom config file
   ansible.builtin.template:
@@ -30,12 +30,13 @@
     group: "{{ mariadb_system_user.gid }}"
   when: mariadb_custom_cnf|length != 0
   notify: restart mariadb
-  tags: mariadb
+  tags: mariadb-config-custom
 
 - name: Check if sysctl executable exists. If not, swappiness cannot be set!
   ansible.builtin.stat:
     path: /usr/sbin/sysctl
   register: sysctl_check
+  tags: mariadb-config-swappiness
 
 - name: Configure swappiness
   ansible.posix.sysctl:
@@ -45,7 +46,7 @@
   when:
     - mariadb_configure_swappiness|bool
     - sysctl_check.stat.exists
-  tags: mariadb
+  tags: mariadb-config-swappiness
 
 # SELinux context mysqld_log_t is default for /var/log/mariadb
 - name: Create log directory
@@ -56,6 +57,7 @@
     group: mysql
     mode: '0755'
   when: mariadb_logrotate.configure|bool
+  tags: mariadb-config-logs
 
 - name: Configure logrotate
   ansible.builtin.template:
@@ -64,11 +66,11 @@
     mode: '0644'
   when: mariadb_logrotate.configure|bool
   notify: restart mariadb
-  tags: mariadb
+  tags: mariadb-config-logrotate
 
 - name: Ensure service is started
   ansible.builtin.service:
     name: "{{ mariadb_service }}"
     state: started
     enabled: true
-  tags: mariadb
+  tags: mariadb-config-service

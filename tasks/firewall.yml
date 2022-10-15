@@ -10,7 +10,7 @@
     proto: tcp
     comment: "mariadb-{{ item.key }}"
   loop: "{{ mariadb_allowed_ips | dict2items }}"
-  tags: mariadb
+  tags: mariadb-firewall-ufw
 
 - name: Firewall - Open MariaDB port (iptables)
   when: mariadb_firewall_backend == 'iptables'
@@ -22,6 +22,6 @@
     comment: "mariadb-{{ item.key }}"
     jump: ACCEPT
   loop: "{{ mariadb_allowed_ips | dict2items }}"
-  tags: mariadb
+  tags: mariadb-firewall-iptables
 
 ...

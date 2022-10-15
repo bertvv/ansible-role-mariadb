@@ -8,7 +8,7 @@
     login_password: "{{ mariadb_root_password }}"
     login_unix_socket: "{{ mariadb_socket }}"
     state: absent
-  tags: mariadb
+  tags: mariadb-databases-cleanup
 
 - name: Create user defined databases
   community.mysql.mysql_db:
@@ -19,7 +19,7 @@
     state: present
   with_items: "{{ mariadb_databases }}"
   register: db_creation
-  tags: mariadb
+  tags: mariadb-databases-create
 
 # Below, the databases are initialised, but only when the database was created
 # in the previous step. This ensures idempotence.
@@ -34,7 +34,7 @@
     mode: '0600'
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
-  tags: mariadb
+  tags: mariadb-databases-init, mariadb-databases-scripts
 
 - name: Initialise databases
   community.mysql.mysql_db:  # noqa 503
@@ -46,7 +46,7 @@
     login_unix_socket: "{{ mariadb_socket }}"
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
-  tags: mariadb
+  tags: mariadb-databases-init
 
 - name: Delete init scripts from the server
   ansible.builtin.file:  # noqa 503
@@ -54,4 +54,4 @@
     state: absent
   with_items: "{{ db_creation.results }}"
   when: item.changed and item.item.init_script is defined
-  tags: mariadb
+  tags: mariadb-databases-init, mariadb-databases-scripts-cleanup
