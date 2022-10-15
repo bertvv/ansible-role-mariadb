@@ -1,8 +1,8 @@
 # roles/mariadb/tasks/install.yml
 ---
 
-- name: Add official MariaDB repository
-  ansible.builtin.include_tasks: add-repo.yml
+- name: Import tasks to add official MariaDB repository
+  ansible.builtin.import_tasks: add-repo.yml
   tags: mariadb
 
 - name: Create daemon group with specified gid
