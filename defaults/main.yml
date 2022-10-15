@@ -6,7 +6,7 @@ mariadb_users: []
 mariadb_root_password: ''
 mariadb_auth_unix_plugin: false
 
-mariadb_mirror: yum.mariadb.org
+mariadb_mirror: null
 mariadb_version: '10.6'
 
 mariadb_configure_swappiness: true
@@ -29,6 +29,10 @@ mariadb_logrotate:
 
 mariadb_service: mariadb
 mariadb_bind_address: '127.0.0.1'
+mariadb_port: '3306'
+mariadb_firewall_backend: null
+mariadb_allowed_ips:
+  world: any
 
 # Server configuration
 mariadb_server_cnf: {}

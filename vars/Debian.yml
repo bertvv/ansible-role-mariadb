@@ -6,7 +6,7 @@ mariadb_packages:
   - mariadb-server
   - python3-pymysql
 
-mariadb_mirror: mirror.mva-n.net/mariadb/repo
+_mariadb_mirror: mirror.mva-n.net/mariadb/repo
 
 mariadb_socket: /run/mysqld/mysqld.sock
 

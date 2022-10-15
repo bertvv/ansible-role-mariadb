@@ -1,8 +1,21 @@
 # Change log
 
-This file contains al notable changes to the mariadb Ansible role.
+This file contains all notable changes to the mariadb Ansible role.
 
 This file adheres to the guidelines of <http://keepachangelog.com/>. Versioning follows [Semantic Versioning](http://semver.org/).
+
+## 3.2.0 - 2022-10-15
+
+### Added
+
+- Firewall helpers to open ports on target host using either `ufw` or `iptables` (credit: @nxet)
+
+### Changed
+
+- Add detailed tags to all tasks
+- Use static `import_tasks` instead of dynamic `include_` to propagate tags to all children tasks
+- Use FQCNs for all tasks
+- Fix support for MariaDB mirror URL config option `mariadb_mirror`
 
 ## 3.1.3 - 2022-10-14
 

@@ -1,0 +1,27 @@
+---
+
+- name: Firewall - Open MariaDB port (ufw)
+  when: mariadb_firewall_backend == 'ufw'
+  community.general.ufw:
+    rule: allow
+    direction: in
+    from_ip: "{{ item.value }}"
+    to_port: "{{ mariadb_port }}"
+    proto: tcp
+    comment: "mariadb-{{ item.key }}"
+  loop: "{{ mariadb_allowed_ips | dict2items }}"
+  tags: mariadb-firewall-ufw
+
+- name: Firewall - Open MariaDB port (iptables)
+  when: mariadb_firewall_backend == 'iptables'
+  ansible.builtin.iptables:
+    chain: INPUT
+    source: "{{ item.value }}"
+    destination_port: "{{ mariadb_port }}"
+    protocol: tcp
+    comment: "mariadb-{{ item.key }}"
+    jump: ACCEPT
+  loop: "{{ mariadb_allowed_ips | dict2items }}"
+  tags: mariadb-firewall-iptables
+
+...
