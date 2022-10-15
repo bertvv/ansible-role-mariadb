@@ -1,6 +1,6 @@
 # Ansible role `mariadb`
 
-An Ansible role for managing MariaDB in RedHat-based distributions. Specifically, the responsibilities of this role are to:
+An Ansible role for managing MariaDB in Debian and RedHat-based distributions. Specifically, the responsibilities of this role are to:
 
 - Install MariaDB packages from the official MariaDB repositories
 - Remove unsafe defaults:
@@ -58,6 +58,12 @@ mariadb_mirror: 'mirror.mva-n.net/mariadb/repo'
 ```
 
 (2) **It is highly recommended to set the database root password!** Leaving the password empty is a serious security risk. The role will issue a warning if the variable was not set.
+
+
+### Debian support
+
+The role is tested working on both Debian 10 `buster` and 11 `bullseye`.  
+Older versions of MariaDB might not work anymore though, and it is recommended to explicitly configure `mariadb_version` in order to target a known compatible release.
 
 ### Server configuration
 
