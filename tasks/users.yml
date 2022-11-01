@@ -16,6 +16,7 @@
   mysql_user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
+    encrypted: "{{ item.encrypted }}"
     host: "{{ item.host|default('localhost') }}"
     priv: "{{ item.priv }}"
     append_privs: "{{ item.append_privs|default('no') }}"
