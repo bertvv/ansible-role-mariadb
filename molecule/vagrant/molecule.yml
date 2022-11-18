@@ -7,29 +7,23 @@ driver:
   provider:
     name: virtualbox
 
-lint: |
-  yamllint .
-  ansible-lint -v .
+# lint: |
+#   yamllint .
+#   ansible-lint -v .
 
 platforms:
-  - name: dbc76
-    box: bento/centos-7.6
+  - name: alma8
+    box: bento/almalinux-8
     interfaces:
       - network_name: private_network
         auto_config: true
-        ip: "192.168.56.76"
-  - name: dbc80
-    box: bento/centos-8
+        ip: "192.168.56.8"
+  - name: alma9
+    box: bento/almalinux-9
     interfaces:
       - network_name: private_network
         auto_config: true
-        ip: "192.168.56.80"
-# - name: dbf32
-#   box: bento/fedora-32
-#   interfaces:
-#     - network_name: private_network
-#       auto_config: true
-#       ip: "192.168.56.32"
+        ip: "192.168.56.9"
 
 provisioner:
   name: ansible
