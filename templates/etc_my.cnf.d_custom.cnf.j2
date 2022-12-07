@@ -1,6 +1,5 @@
 # MariaDB Custom server configuration
-#
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 {% for section_name, section_contents in mariadb_custom_cnf.items() %}
 [{{ section_name }}]

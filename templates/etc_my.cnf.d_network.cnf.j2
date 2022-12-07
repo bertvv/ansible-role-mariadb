@@ -1,6 +1,5 @@
 # Mariadb network settings
-#
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 [mysqld]
 bind_address={{ mariadb_bind_address }}
