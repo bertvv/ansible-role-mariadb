@@ -1,6 +1,5 @@
 # MariaDB Server configuration
-#
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 [mariadb]
 {% for key, value in mariadb_server_cnf.items() %}
